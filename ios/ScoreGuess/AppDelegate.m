@@ -1,5 +1,7 @@
 #import "AppDelegate.h"
 
+#import <Firebase.h>
+
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -11,6 +13,9 @@
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 #import <FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
+
+
+
 
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
@@ -34,6 +39,9 @@ static void InitializeFlipper(UIApplication *application) {
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
+  if ([FIRApp defaultApp] == nil) {
+    [FIRApp configure];
+  }
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self
                                             launchOptions:launchOptions];
@@ -53,6 +61,8 @@ static void InitializeFlipper(UIApplication *application) {
   [self.window makeKeyAndVisible];
   return YES;
 }
+
+
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge {
 #ifdef FB_SONARKIT_ENABLED

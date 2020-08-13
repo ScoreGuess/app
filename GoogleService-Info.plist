@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>826665320449-3q8o4h9tigvi9lv6mgt41pknves3suao.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.826665320449-3q8o4h9tigvi9lv6mgt41pknves3suao</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAsQ6OMSnIZMfxQWn7ZqL1vi5mMFqKas30</string>
+	<key>GCM_SENDER_ID</key>
+	<string>826665320449</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>game.scoreguess</string>
+	<key>PROJECT_ID</key>
+	<string>scoreguess-17a79</string>
+	<key>STORAGE_BUCKET</key>
+	<string>scoreguess-17a79.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:826665320449:ios:a0278062e003d52fc14000</string>
+	<key>DATABASE_URL</key>
+	<string>https://scoreguess-17a79.firebaseio.com</string>
+</dict>
+</plist>

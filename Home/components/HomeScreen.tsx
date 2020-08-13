@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import moment from 'moment';
+import Screen from '../../Shared/components/Screen';
 
 const GET_ALL_TEAMS = gql`
   query getAllFixture {
@@ -60,12 +61,12 @@ const HomeScreen = () => {
   const {loading, data} = useQuery(GET_ALL_TEAMS);
   const fixtures = data?.allFixtures ?? [];
   return (
-    <View style={tailwind('bg-white p-2 pt-12 h-full')}>
+    <Screen>
       <Text style={tailwind('text-black text-3xl px-2 my-6')}>Journée 1</Text>
       <View style={tailwind('flex-1 justify-center w-full')}>
         {loading ? <ActivityIndicator /> : <FixtureList fixtures={fixtures} />}
       </View>
-    </View>
+    </Screen>
   );
 };
 

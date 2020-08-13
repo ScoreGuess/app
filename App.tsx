@@ -8,31 +8,57 @@
  * @format
  */
 
-import React from 'react';
-import {SafeAreaView, StatusBar} from 'react-native';
-import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
+import React, {useState, useEffect} from 'react';
 import 'react-native-gesture-handler';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-const Tab = createBottomTabNavigator();
-
 import tailwind from 'tailwind-rn';
+import {SafeAreaView, View, Text, StatusBar} from 'react-native';
+import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import auth from '@react-native-firebase/auth';
+
 import PredictionScreen from './Prediction/components/PredictionScreen';
 import HomeScreen from './Home/components/HomeScreen';
-
-const Stack = createStackNavigator();
+import SignInScreen from './Auth/components/SignInScreen';
+import ProfileScreen from './Profile/components/ProfileScreen';
 
 declare const global: {HermesInternal: null | {}};
 
+const Tab = createBottomTabNavigator();
 const uri = 'https://us-central1-scoreguess-17a79.cloudfunctions.net/graphql';
-//const uri = 'http://localhost:5001/scoreguess-17a79/us-central1/graphql';
+//const uri = 'http://localhost:5000/scoreguess-17a79/us-central1/graphql';
+
 const client = new ApolloClient({
   uri,
   cache: new InMemoryCache(),
 });
 
 const App = () => {
+  // Set an initializing state whilst Firebase connects
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (initializing) return null;
+
+  if (!user) {
+    return (
+      <SafeAreaView>
+        <SignInScreen />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <ApolloProvider client={client}>
       <StatusBar barStyle="dark-content" />
@@ -41,6 +67,7 @@ const App = () => {
           <Tab.Navigator>
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="Prediction" component={PredictionScreen} />
+            <Tab.Screen name="Profil" component={ProfileScreen} />
           </Tab.Navigator>
         </NavigationContainer>
       </SafeAreaView>
