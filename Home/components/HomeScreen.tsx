@@ -1,70 +1,30 @@
 import React from 'react';
 import tailwind from 'tailwind-rn';
-import {gql, useQuery} from '@apollo/client';
-import {
-  ScrollView,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
-import moment from 'moment';
+import {Text, View, Image} from 'react-native';
 import Screen from '../../Shared/components/Screen';
-
-const GET_ALL_TEAMS = gql`
-  query getAllFixture {
-    allFixtures {
-      startDate
-      id
-      awayTeam {
-        shortName
-        id
-        logo
-      }
-      homeTeam {
-        shortName
-        id
-        logo
-      }
-    }
-  }
-`;
+import FixtureList from '../containers/FixtureList';
+import FixtureView from './FixtureView';
 
 const DATE_FORMAT = 'DD-MM-YYYYThh:mm';
-const TeamLogo = ({team}) => (
-  <View style={tailwind('flex-1 items-center')}>
-    <Image style={{width: 32, height: 32}} source={{uri: team.logo}} />
-    <Text style={tailwind('pt-4')}>{team.shortName}</Text>
-  </View>
-);
-
-const FixtureList = ({fixtures}) => (
-  <ScrollView style={tailwind(' h-full')}>
-    {fixtures.map((fixture) => (
-      <TouchableOpacity
-        key={fixture.id}
-        style={tailwind(' w-full p-4 border-gray-200  border-b-2')}>
-        <View style={tailwind('flex-row items-end')}>
-          <TeamLogo team={fixture.homeTeam} />
-          <Text style={tailwind('text-center text-purple-800')}>
-            {moment(fixture.startDate, DATE_FORMAT).format('DD/MM HH:mm')}
-          </Text>
-          <TeamLogo team={fixture.awayTeam} />
-        </View>
-      </TouchableOpacity>
-    ))}
-  </ScrollView>
-);
 
 const HomeScreen = () => {
-  const {loading, data} = useQuery(GET_ALL_TEAMS);
-  const fixtures = data?.allFixtures ?? [];
   return (
     <Screen>
-      <Text style={tailwind('text-black text-3xl px-2 my-6')}>Journée 1</Text>
       <View style={tailwind('flex-1 justify-center w-full')}>
-        {loading ? <ActivityIndicator /> : <FixtureList fixtures={fixtures} />}
+        <View style={tailwind('flex-row items-center p-4')}>
+          <Text style={tailwind('text-4xl font-bold')}>👇</Text>
+
+          <View style={tailwind('ml-4')}>
+            <Text style={tailwind('text-2xl font-bold')}>Tes Pronostics</Text>
+            <Text style={tailwind('text-2xl font-bold')}>
+              <Text> de la&nbsp;</Text>
+              <Text style={tailwind('text-red-600')}>1ère Journée</Text>
+            </Text>
+          </View>
+        </View>
+        <FixtureList>
+          {(fixture) => <FixtureView key={fixture.id} fixture={fixture} />}
+        </FixtureList>
       </View>
     </Screen>
   );

@@ -74,57 +74,59 @@ const SignInScreen = () => {
   };
   return (
     <Screen>
-      <View style={tailwind('w-full mt-4')}>
-        <Text style={tailwind('mb-2')}>Adresse email</Text>
-        <TextInput
-          keyboardType="email-address"
-          onChangeText={(text) =>
-            dispatch({
-              type: 'changed',
-              payload: {
-                type: 'email',
-                value: text.toLowerCase(),
-              },
-            })
-          }
-          value={state.email}
-          style={tailwind('bg-purple-200 w-full p-4 rounded-md')}
-        />
-      </View>
-      <View style={tailwind('w-full mt-4')}>
-        <Text style={tailwind('mb-2')}>Mot de passe</Text>
-        <TextInput
-          keyboardType="default"
-          secureTextEntry
-          onChangeText={(text) =>
-            dispatch({
-              type: 'changed',
-              payload: {
-                type: 'password',
-                value: text.toLowerCase(),
-              },
-            })
-          }
-          value={state.password}
-          style={tailwind('bg-purple-200 w-full p-4 rounded-md')}
-        />
-      </View>
-      <View>
-        <Text style={tailwind('py-4 text-red-600')}>&nbsp;{state.error}</Text>
-      </View>
-      {state.loading ? (
-        <ActivityIndicator />
-      ) : (
-        <Button onPress={handleSubmit}>
-          {state.method === 'signIn' ? "S'inscrire" : 'Se connecter'}
+      <View style={tailwind('p-4')}>
+        <View style={tailwind('w-full mt-4')}>
+          <Text style={tailwind('mb-2')}>Adresse email</Text>
+          <TextInput
+            keyboardType="email-address"
+            onChangeText={(text) =>
+              dispatch({
+                type: 'changed',
+                payload: {
+                  type: 'email',
+                  value: text.toLowerCase(),
+                },
+              })
+            }
+            value={state.email}
+            style={tailwind('bg-purple-200 w-full p-4 rounded-md')}
+          />
+        </View>
+        <View style={tailwind('w-full mt-4')}>
+          <Text style={tailwind('mb-2')}>Mot de passe</Text>
+          <TextInput
+            keyboardType="default"
+            secureTextEntry
+            onChangeText={(text) =>
+              dispatch({
+                type: 'changed',
+                payload: {
+                  type: 'password',
+                  value: text.toLowerCase(),
+                },
+              })
+            }
+            value={state.password}
+            style={tailwind('bg-purple-200 w-full p-4 rounded-md')}
+          />
+        </View>
+        <View>
+          <Text style={tailwind('py-4 text-red-600')}>&nbsp;{state.error}</Text>
+        </View>
+        {state.loading ? (
+          <ActivityIndicator />
+        ) : (
+          <Button onPress={handleSubmit}>
+            {state.method === 'signIn' ? "S'inscrire" : 'Se connecter'}
+          </Button>
+        )}
+        <Button
+          variant="tertiary"
+          style={tailwind('mt-4')}
+          onPress={toggleMethod}>
+          {state.method === 'signIn' ? 'Déjà un compte ?' : 'Créer un compte'}
         </Button>
-      )}
-      <Button
-        variant="tertiary"
-        style={tailwind('mt-4')}
-        onPress={toggleMethod}>
-        {state.method === 'signIn' ? 'Déjà un compte ?' : 'Créer un compte'}
-      </Button>
+      </View>
     </Screen>
   );
 };

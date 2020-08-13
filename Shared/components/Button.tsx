@@ -12,12 +12,12 @@ type ButtonProps = {
 
 const variants = {
   background: {
-    primary: 'bg-purple-800',
+    primary: 'bg-red-600',
     tertiary: '',
   },
   text: {
-    primary: 'text-purple-200',
-    tertiary: 'text-purple-800',
+    primary: 'text-red-200',
+    tertiary: 'text-red-600',
   },
 };
 const Button = ({

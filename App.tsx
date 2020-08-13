@@ -11,13 +11,15 @@
 import React, {useState, useEffect} from 'react';
 import 'react-native-gesture-handler';
 import tailwind from 'tailwind-rn';
-import {SafeAreaView, View, Text, StatusBar} from 'react-native';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faFutbol, faCog} from '@fortawesome/free-solid-svg-icons';
+
+import {SafeAreaView, StatusBar} from 'react-native';
 import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
 
-import PredictionScreen from './Prediction/components/PredictionScreen';
 import HomeScreen from './Home/components/HomeScreen';
 import SignInScreen from './Auth/components/SignInScreen';
 import ProfileScreen from './Profile/components/ProfileScreen';
@@ -64,9 +66,26 @@ const App = () => {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={tailwind('h-full bg-white')}>
         <NavigationContainer>
-          <Tab.Navigator>
+          <Tab.Navigator
+            screenOptions={({route}) => ({
+              tabBarIcon: ({focused, color, size}) => {
+                let icon;
+
+                if (route.name === 'Home') {
+                  icon = faFutbol;
+                } else {
+                  icon = faCog;
+                }
+
+                // You can return any component that you like here!
+                return <FontAwesomeIcon icon={icon} color={color} size={20} />;
+              },
+            })}
+            tabBarOptions={{
+              activeTintColor: 'tomato',
+              inactiveTintColor: 'gray',
+            }}>
             <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Prediction" component={PredictionScreen} />
             <Tab.Screen name="Profil" component={ProfileScreen} />
           </Tab.Navigator>
         </NavigationContainer>

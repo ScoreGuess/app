@@ -6,7 +6,7 @@ type ScreenProps = {
   children: ReactNode;
 };
 const Screen = ({children}: ScreenProps) => (
-  <View style={tailwind('w-full h-full bg-white px-4 pt-8')}>{children}</View>
+  <View style={tailwind('w-full h-full bg-white')}>{children}</View>
 );
 
 export default Screen;

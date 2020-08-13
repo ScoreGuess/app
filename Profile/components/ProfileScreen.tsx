@@ -15,20 +15,19 @@ const GET_USER_INFO = gql`
     }
   }
 `;
-const ProfileScreen = (props) => {
-  const {loading, error, data} = useQuery(GET_USER_INFO);
+const ProfileScreen = ({}) => {
+  const {loading, data} = useQuery(GET_USER_INFO);
   const user = data?.user ?? null;
-  console.log(error);
   return (
     <Screen>
-      <View style={tailwind('h-full justify-between')}>
+      <View style={tailwind('h-full p-4 justify-between')}>
         {loading ? (
           <ActivityIndicator />
         ) : (
           <View style={tailwind('my-4')}>
             <Text style={tailwind('font-bold text-3xl')}>
               <Text>Salut&nbsp;</Text>
-              <Text style={tailwind('text-purple-800')}>{user?.firstName}</Text>
+              <Text style={tailwind('text-red-600')}>{user?.firstName}</Text>
             </Text>
             <Text style={tailwind('mt-2 text-3xl')}>
               Prêt à rouler sur tes potes ?
@@ -36,6 +35,7 @@ const ProfileScreen = (props) => {
           </View>
         )}
         <Button
+          variant="tertiary"
           onPress={() => {
             auth().signOut();
           }}>
