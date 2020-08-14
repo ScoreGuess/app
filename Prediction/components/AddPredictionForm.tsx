@@ -26,7 +26,6 @@ const USER_UPDATE_PREDICTION = gql`
     $fixtureId: String!
   ) {
     userCreatePrediction(
-      userId: "${auth().currentUser.uid}"
       fixtureId: $fixtureId
       homeScore: $homeScore
       awayScore: $awayScore

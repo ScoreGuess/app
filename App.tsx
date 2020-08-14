@@ -15,7 +15,14 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faFutbol, faCog} from '@fortawesome/free-solid-svg-icons';
 
 import {SafeAreaView, StatusBar} from 'react-native';
-import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
+import {
+  ApolloClient,
+  InMemoryCache,
+  createHttpLink,
+  ApolloProvider,
+} from '@apollo/client';
+import {setContext} from '@apollo/client/link/context';
+
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
@@ -26,23 +33,41 @@ import ProfileScreen from './Profile/components/ProfileScreen';
 
 declare const global: {HermesInternal: null | {}};
 
-const Tab = createBottomTabNavigator();
-const uri = 'https://us-central1-scoreguess-17a79.cloudfunctions.net/graphql';
-//const uri = 'http://localhost:5000/scoreguess-17a79/us-central1/graphql';
-
-const client = new ApolloClient({
-  uri,
-  cache: new InMemoryCache(),
+const httpLink = createHttpLink({
+  uri: 'http://localhost:5000/scoreguess-17a79/us-central1/graphql',
 });
+
+const Tab = createBottomTabNavigator();
+//const uri = 'https://us-central1-scoreguess-17a79.cloudfunctions.net/graphql';
+const uri = 'http://localhost:5000/scoreguess-17a79/us-central1/graphql';
 
 const App = () => {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
-
+  const [client, setClient] = useState(null);
   // Handle user state changes
   function onAuthStateChanged(user) {
     setUser(user);
+    const authLink = setContext(async (_, {headers}) => {
+      // get the authentication token from local storage if it exists
+      const idToken = await auth().currentUser.getIdToken(true);
+
+      // return the headers to the context so httpLink can read them
+      return {
+        headers: {
+          ...headers,
+          authorization: idToken ? `Bearer ${idToken}` : '',
+        },
+      };
+    });
+    // In this project we use Apollo to connect to the database
+    setClient(
+      new ApolloClient({
+        link: authLink.concat(httpLink),
+        cache: new InMemoryCache(),
+      }),
+    );
     if (initializing) setInitializing(false);
   }
 
@@ -52,7 +77,6 @@ const App = () => {
   }, []);
 
   if (initializing) return null;
-
   if (!user) {
     return (
       <SafeAreaView>
