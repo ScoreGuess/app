@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:826665320449:android:4283793a8bf7829bc14000",
+        "mobilesdk_app_id": "1:826665320449:android:2fc91a5021cf3fc4c14000",
         "android_client_info": {
-          "package_name": "game.Scoreguess"
+          "package_name": "game.scoreguess"
         }
       },
       "oauth_client": [
