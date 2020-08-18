@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "826665320449",
+    "firebase_url": "https://scoreguess-17a79.firebaseio.com",
+    "project_id": "scoreguess-17a79",
+    "storage_bucket": "scoreguess-17a79.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826665320449:android:4283793a8bf7829bc14000",
+        "android_client_info": {
+          "package_name": "game.Scoreguess"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826665320449-sel1k7gd144tbq11chdt104umd05h54r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAeU2LATjifDanXRlR_jygfFh19oyLTn8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826665320449-sel1k7gd144tbq11chdt104umd05h54r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "826665320449-3q8o4h9tigvi9lv6mgt41pknves3suao.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "game.scoreguess"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
