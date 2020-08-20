@@ -59,6 +59,8 @@ const GroupedFixtureList = ({children}: FixtureListProps) => {
           <View>{fixtures.map(children)}</View>
         </View>
       ))}
+      {/* mt-16 is required to add some space between the keyboard and the last fixture view */}
+      <View style={tailwind('mt-16')} />
     </ScrollView>
   );
 };
