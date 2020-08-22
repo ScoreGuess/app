@@ -61,8 +61,11 @@ const GroupedFixtureList = ({children}: FixtureListProps) => {
         })
         .map(([day, fixtures]) => (
           <View key={day}>
-            <View style={tailwind('bg-gray-200 p-4')}>
-              <Text style={tailwind('text-center uppercase text-gray-600')}>
+            <View style={tailwind('bg-gray-400 p-4')}>
+              <Text
+                style={tailwind(
+                  'text-center uppercase font-bold text-gray-800',
+                )}>
                 {moment(day, 'DD-MM-YYYY').format('dddd DD MMMM')}
               </Text>
             </View>

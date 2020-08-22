@@ -34,12 +34,11 @@ import ProfileScreen from './Profile/components/ProfileScreen';
 declare const global: {HermesInternal: null | {}};
 
 const httpLink = createHttpLink({
+  //uri: 'http://localhost:5000/scoreguess-17a79/us-central1/graphql',
   uri: 'https://us-central1-scoreguess-17a79.cloudfunctions.net/graphql',
 });
 
 const Tab = createBottomTabNavigator();
-const uri = 'https://us-central1-scoreguess-17a79.cloudfunctions.net/graphql';
-//const uri = 'http://localhost:5000/scoreguess-17a79/us-central1/graphql';
 
 const App = () => {
   // Set an initializing state whilst Firebase connects
