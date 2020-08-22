@@ -10,10 +10,13 @@ const SEARCH_FIXTURES = gql`
     fixtures(matchDay: 1) {
       startDate
       id
+      status
       prediction {
         homeScore
         awayScore
       }
+      homeScore
+      awayScore
       awayTeam {
         shortName
         id
@@ -49,16 +52,23 @@ const GroupedFixtureList = ({children}: FixtureListProps) => {
     <ActivityIndicator />
   ) : (
     <ScrollView style={tailwind('h-full')}>
-      {Object.entries(groupingBy).map(([day, fixtures]) => (
-        <View key={day}>
-          <View style={tailwind('bg-gray-200 p-4')}>
-            <Text style={tailwind('text-center uppercase text-gray-600')}>
-              {moment(day, 'DD-MM-YYYY').format('dddd DD MMMM')}
-            </Text>
+      {Object.entries(groupingBy)
+        .sort(([a], [b]) => {
+          return (
+            moment(a, 'DD-MM-YYYY').format('YYYYMMDD') -
+            moment(b, 'DD-MM-YYYY').format('YYYYMMDD')
+          );
+        })
+        .map(([day, fixtures]) => (
+          <View key={day}>
+            <View style={tailwind('bg-gray-200 p-4')}>
+              <Text style={tailwind('text-center uppercase text-gray-600')}>
+                {moment(day, 'DD-MM-YYYY').format('dddd DD MMMM')}
+              </Text>
+            </View>
+            <View>{fixtures.map(children)}</View>
           </View>
-          <View>{fixtures.map(children)}</View>
-        </View>
-      ))}
+        ))}
       {/* mt-16 is required to add some space between the keyboard and the last fixture view */}
       <View style={tailwind('mt-16')} />
     </ScrollView>
