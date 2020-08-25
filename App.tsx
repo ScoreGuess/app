@@ -12,7 +12,7 @@ import React, {useState, useEffect} from 'react';
 import 'react-native-gesture-handler';
 import tailwind from 'tailwind-rn';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faFutbol, faCog} from '@fortawesome/free-solid-svg-icons';
+import {faFutbol, faCog, faTable} from '@fortawesome/free-solid-svg-icons';
 
 import {SafeAreaView, StatusBar} from 'react-native';
 import {
@@ -30,12 +30,13 @@ import auth from '@react-native-firebase/auth';
 import HomeScreen from './Home/components/HomeScreen';
 import SignInScreen from './Auth/components/SignInScreen';
 import ProfileScreen from './Profile/components/ProfileScreen';
+import ResultsScreen from './Results/components/ResultsScreen';
 
 declare const global: {HermesInternal: null | {}};
 
 const httpLink = createHttpLink({
-  //uri: 'http://localhost:5000/scoreguess-17a79/us-central1/graphql',
-  uri: 'https://us-central1-scoreguess-17a79.cloudfunctions.net/graphql',
+  uri: 'http://localhost:5000/scoreguess-17a79/us-central1/graphql',
+  //uri: 'https://us-central1-scoreguess-17a79.cloudfunctions.net/graphql',
 });
 
 const Tab = createBottomTabNavigator();
@@ -94,8 +95,10 @@ const App = () => {
               tabBarIcon: ({focused, color, size}) => {
                 let icon;
 
-                if (route.name === 'Home') {
+                if (route.name === 'Pronos') {
                   icon = faFutbol;
+                } else if (route.name === 'Résultats') {
+                  icon = faTable;
                 } else {
                   icon = faCog;
                 }
@@ -108,7 +111,8 @@ const App = () => {
               activeTintColor: 'tomato',
               inactiveTintColor: 'gray',
             }}>
-            <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="Pronos" component={HomeScreen} />
+            <Tab.Screen name="Résultats" component={ResultsScreen} />
             <Tab.Screen name="Profil" component={ProfileScreen} />
           </Tab.Navigator>
         </NavigationContainer>

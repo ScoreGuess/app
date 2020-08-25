@@ -1,17 +1,27 @@
-import React, {ReactNode} from 'react';
-import {ActivityIndicator, Text, ScrollView, View} from 'react-native';
+import React, {ReactNode, useEffect} from 'react';
+import {
+  ActivityIndicator,
+  RefreshControl,
+  Text,
+  ScrollView,
+  View,
+} from 'react-native';
 import tailwind from 'tailwind-rn';
 import {gql, useQuery} from '@apollo/client';
 import moment from 'moment';
 import 'moment/locale/fr';
 
 const SEARCH_FIXTURES = gql`
-  query getAllFixture {
-    fixtures(matchDay: 1) {
+  query getAllFixture($matchDay: Int) {
+    fixtures(matchDay: $matchDay) {
       startDate
       id
       status
+      matchDay
       prediction {
+        attributes {
+          type
+        }
         homeScore
         awayScore
       }
@@ -37,21 +47,54 @@ type Fixture = {
 
 type FixtureListProps = {
   children: (fixture: Fixture) => ReactNode;
+  matchDay: number | null;
 };
 
 moment.locale('fr');
-const GroupedFixtureList = ({children}: FixtureListProps) => {
-  const {loading, data} = useQuery(SEARCH_FIXTURES);
+
+const GroupedFixtureList = ({matchDay, children}: FixtureListProps) => {
+  const {loading, data, error, refetch} = useQuery(SEARCH_FIXTURES, {
+    variables: {
+      matchDay: matchDay,
+    },
+  });
+  React.useEffect(() => {
+    if (error != null) console.warn(error);
+  }, [error]);
+
   const fixtures = data?.fixtures ?? [];
+
+  const [refreshing, setRefreshing] = React.useState(false);
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    try {
+      await refetch();
+    } catch {
+      console.warn('something went wrong while refetching fixtures');
+    }
+    setRefreshing(false);
+  }, [refetch]);
+
+  return loading ? (
+    <ActivityIndicator />
+  ) : (
+    <Day fixtures={fixtures} refreshing={refreshing} onRefresh={onRefresh}>
+      {children}
+    </Day>
+  );
+};
+
+const Day = ({fixtures, children, onRefresh, refreshing}) => {
   const groupingBy = fixtures.reduce((groupedFixtures, fixture) => {
     const day = fixture.startDate.substring(0, 10);
     const group = groupedFixtures[day] ?? [];
     return {...groupedFixtures, [day]: [...group, fixture]};
   }, {});
-  return loading ? (
-    <ActivityIndicator />
-  ) : (
-    <ScrollView style={tailwind('h-full')}>
+  return (
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       {Object.entries(groupingBy)
         .sort(([a], [b]) => {
           return (
