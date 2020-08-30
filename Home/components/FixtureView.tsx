@@ -20,12 +20,13 @@ const ScoreView = ({fixture}) => {
 const ResultListView = ({prediction}) => {
   const {attributes} = prediction;
   const [first, ...rest] = attributes;
+  if (first == null) return null;
   return (
-    <View style={tailwind('pt-2 pb-2')}>
+    <View style={tailwind('pt-2 pb-2 border-t-2 border-gray-400')}>
       <View style={tailwind('flex-row justify-between pt-2 pb-2')}>
         <Text>Résultats</Text>
         <View style={tailwind('flex-row')}>
-          <Text style={tailwind('')}>{first.type}</Text>
+          <Text style={tailwind('')}>{first?.type}</Text>
         </View>
       </View>
       {rest.map((attribute, i) => (
@@ -44,9 +45,13 @@ const FixtureView = ({fixture}) => {
       <View style={tailwind('flex-row items-start py-4')}>
         <TeamView team={fixture.homeTeam} />
         <View style={tailwind('flex-1')}>
-          {fixture.status === 'PLANNED' ? (
+          {fixture.status === 'PLANNED' && (
             <AddPredictionForm fixture={fixture} />
-          ) : (
+          )}
+          {fixture.status === 'IN_PROGRESS' && (
+            <Text style={tailwind('text-center self-center')}>En cours</Text>
+          )}
+          {fixture.status === 'FINISHED' && (
             <View style={tailwind('flex-1')}>
               <ScoreView fixture={fixture} />
             </View>
@@ -56,10 +61,7 @@ const FixtureView = ({fixture}) => {
       </View>
       {fixture.status === 'FINISHED' && fixture.prediction != null && (
         <View style={tailwind('bg-gray-200 px-4')}>
-          <View
-            style={tailwind(
-              'flex-row justify-between py-4 border-b-2 border-gray-400',
-            )}>
+          <View style={tailwind('flex-row justify-between py-4')}>
             <Text style={tailwind(' font-bold')}>Pronostic</Text>
             <View style={tailwind('flex-row ')}>
               <Text style={tailwind('font-bold')}>
