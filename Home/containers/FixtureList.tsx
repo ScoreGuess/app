@@ -98,8 +98,8 @@ const Day = ({fixtures, children, onRefresh, refreshing}) => {
       {Object.entries(groupingBy)
         .sort(([a], [b]) => {
           return (
-            moment(a, 'DD-MM-YYYY').format('YYYYMMDD') -
-            moment(b, 'DD-MM-YYYY').format('YYYYMMDD')
+            moment(a, 'YYYY-MM-DD').format('YYYYMMDD') -
+            moment(b, 'YYYY-MM-DD').format('YYYYMMDD')
           );
         })
         .map(([day, fixtures]) => (
@@ -109,7 +109,7 @@ const Day = ({fixtures, children, onRefresh, refreshing}) => {
                 style={tailwind(
                   'text-center uppercase font-bold text-gray-800',
                 )}>
-                {moment(day, 'DD-MM-YYYY').format('dddd DD MMMM')}
+                {moment(day, 'YYYY-MM-DD').format('dddd DD MMMM')}
               </Text>
             </View>
             <View>{fixtures.map(children)}</View>

@@ -35,8 +35,8 @@ import ResultsScreen from './Results/components/ResultsScreen';
 declare const global: {HermesInternal: null | {}};
 
 const httpLink = createHttpLink({
-  //uri: 'http://localhost:5000/scoreguess-17a79/us-central1/graphql',
-  uri: 'https://us-central1-scoreguess-17a79.cloudfunctions.net/graphql',
+  uri: 'http://localhost:5000/scoreguess-17a79/us-central1/graphql',
+  //uri: 'https://us-central1-scoreguess-17a79.cloudfunctions.net/graphql',
 });
 
 const Tab = createBottomTabNavigator();
