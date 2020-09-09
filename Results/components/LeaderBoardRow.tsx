@@ -14,7 +14,7 @@ const LeaderBoardRow = ({participant, index}) => {
       key={participant.id}>
       <View style={tailwind('flex-row justify-between items-center')}>
         <Text style={tailwind('font-bold mr-2')}>{index + 2}ème</Text>
-        <Text>{participant.email}</Text>
+        <Text>{participant.displayName ?? participant.email}</Text>
       </View>
       <View>
         <Text style={tailwind('text-red-800 font-bold')}>

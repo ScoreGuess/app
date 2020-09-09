@@ -13,6 +13,7 @@ const GROUP_SEARCH = gql`
       participants {
         id
         email
+        displayName
         predictions {
           attributes {
             type
@@ -48,6 +49,7 @@ const ResultsView = () => {
           />
         ))}
       </View>
+      <View style={tailwind('mt-16')} />
     </ScrollView>
   );
 };

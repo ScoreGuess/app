@@ -3,6 +3,8 @@ import tailwind from 'tailwind-rn';
 import AddPredictionForm from '../../Prediction/components/AddPredictionForm';
 import React from 'react';
 import TeamView from './TeamView';
+import ResultListView from './ResultListView';
+import Card from '../../Shared/components/Card';
 
 const ScoreView = ({fixture}) => {
   return (
@@ -17,31 +19,9 @@ const ScoreView = ({fixture}) => {
   );
 };
 
-const ResultListView = ({prediction}) => {
-  const {attributes} = prediction;
-  const [first, ...rest] = attributes;
-  if (first == null) return null;
-  return (
-    <View style={tailwind('pt-2 pb-2 border-t-2 border-gray-400')}>
-      <View style={tailwind('flex-row justify-between pt-2 pb-2')}>
-        <Text>Résultats</Text>
-        <View style={tailwind('flex-row')}>
-          <Text style={tailwind('')}>{first?.type}</Text>
-        </View>
-      </View>
-      {rest.map((attribute, i) => (
-        <View key={i} style={tailwind('flex-row justify-end pt-2 pb-2')}>
-          <View style={tailwind('flex-row')}>
-            <Text style={tailwind('')}>{attribute.type}</Text>
-          </View>
-        </View>
-      ))}
-    </View>
-  );
-};
 const FixtureView = ({fixture}) => {
   return (
-    <View>
+    <Card style={tailwind('bg-white m-2 pt-4')}>
       <View style={tailwind('flex-row items-start py-4')}>
         <TeamView team={fixture.homeTeam} />
         <View style={tailwind('flex-1')}>
@@ -60,8 +40,8 @@ const FixtureView = ({fixture}) => {
         <TeamView team={fixture.awayTeam} />
       </View>
       {fixture.status === 'FINISHED' && fixture.prediction != null && (
-        <View style={tailwind('bg-gray-200 px-4')}>
-          <View style={tailwind('flex-row justify-between py-4')}>
+        <View style={tailwind(' border-t-2 border-gray-200 px-4 mb-2')}>
+          <View style={tailwind('flex-row justify-between py-4 mt-4')}>
             <Text style={tailwind(' font-bold')}>Pronostic</Text>
             <View style={tailwind('flex-row ')}>
               <Text style={tailwind('font-bold')}>
@@ -76,7 +56,7 @@ const FixtureView = ({fixture}) => {
           <ResultListView prediction={fixture.prediction} />
         </View>
       )}
-    </View>
+    </Card>
   );
 };
 

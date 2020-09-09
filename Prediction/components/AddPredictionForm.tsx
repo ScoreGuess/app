@@ -5,6 +5,7 @@ import {View} from 'react-native';
 import tailwind from 'tailwind-rn';
 import ScoreInput from './ScoreInput';
 import auth from '@react-native-firebase/auth';
+import {SEARCH_FIXTURES} from '../../Home/containers/FixtureList';
 
 const reducer = (state, action) => {
   const {type, payload} = action;
@@ -45,7 +46,11 @@ const init = (fixture) => fixture?.prediction ?? initialState;
 
 const AddPredictionForm = ({fixture}) => {
   const [state, dispatch] = useReducer(reducer, fixture, init);
-  const [mutation] = useMutation(USER_UPDATE_PREDICTION);
+  const [mutation] = useMutation(USER_UPDATE_PREDICTION, {
+    refetchQueries: [
+      {query: SEARCH_FIXTURES, variables: {matchDay: fixture.matchDay}},
+    ],
+  });
   //will trigger only if the user update the score
   useUpdateEffect(() => {
     if (state.homeScore != null && state.awayScore != null) {

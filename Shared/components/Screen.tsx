@@ -4,9 +4,12 @@ import tailwind from 'tailwind-rn';
 
 type ScreenProps = {
   children: ReactNode;
+  style: any;
 };
-const Screen = ({children}: ScreenProps) => (
-  <View style={tailwind('w-full h-full bg-white')}>{children}</View>
+const Screen = ({children, style}: ScreenProps) => (
+  <View style={{...style, ...tailwind('w-full h-full bg-gray-100')}}>
+    {children}
+  </View>
 );
 
 export default Screen;

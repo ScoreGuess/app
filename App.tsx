@@ -88,7 +88,7 @@ const App = () => {
   return (
     <ApolloProvider client={client}>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={tailwind('h-full bg-white')}>
+      <SafeAreaView style={tailwind('h-full bg-gray-100')}>
         <NavigationContainer>
           <Tab.Navigator
             screenOptions={({route}) => ({

@@ -6,6 +6,7 @@ import auth from '@react-native-firebase/auth';
 
 import tailwind from 'tailwind-rn';
 import Button from '../../Shared/components/Button';
+import Card from '../../Shared/components/Card';
 
 type SignInState = {
   method: 'signIn' | 'logIn';
@@ -74,7 +75,7 @@ const SignInScreen = () => {
   };
   return (
     <Screen>
-      <View style={tailwind('p-4')}>
+      <Card style={tailwind('m-2 mt-8 p-4 bg-white')}>
         <View style={tailwind('w-full mt-4')}>
           <Text style={tailwind('mb-2')}>Adresse email</Text>
           <TextInput
@@ -89,7 +90,7 @@ const SignInScreen = () => {
               })
             }
             value={state.email}
-            style={tailwind('bg-purple-200 w-full p-4 rounded-md')}
+            style={tailwind('bg-gray-200 w-full p-4 rounded-md')}
           />
         </View>
         <View style={tailwind('w-full mt-4')}>
@@ -107,7 +108,7 @@ const SignInScreen = () => {
               })
             }
             value={state.password}
-            style={tailwind('bg-purple-200 w-full p-4 rounded-md')}
+            style={tailwind('bg-gray-200 w-full p-4 rounded-md')}
           />
         </View>
         <View>
@@ -120,13 +121,13 @@ const SignInScreen = () => {
             {state.method === 'signIn' ? "S'inscrire" : 'Se connecter'}
           </Button>
         )}
-        <Button
-          variant="tertiary"
-          style={tailwind('mt-4')}
-          onPress={toggleMethod}>
-          {state.method === 'signIn' ? 'Déjà un compte ?' : 'Créer un compte'}
-        </Button>
-      </View>
+      </Card>
+      <Button
+        variant="tertiary"
+        style={tailwind('mt-4')}
+        onPress={toggleMethod}>
+        {state.method === 'signIn' ? 'Déjà un compte ?' : 'Créer un compte'}
+      </Button>
     </Screen>
   );
 };

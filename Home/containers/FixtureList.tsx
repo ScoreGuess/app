@@ -11,7 +11,7 @@ import {gql, useQuery} from '@apollo/client';
 import moment from 'moment';
 import 'moment/locale/fr';
 
-const SEARCH_FIXTURES = gql`
+export const SEARCH_FIXTURES = gql`
   query getAllFixture($matchDay: Int) {
     fixtures(matchDay: $matchDay) {
       startDate
@@ -104,11 +104,9 @@ const Day = ({fixtures, children, onRefresh, refreshing}) => {
         })
         .map(([day, fixtures]) => (
           <View key={day}>
-            <View style={tailwind('bg-gray-400 p-4')}>
+            <View style={tailwind('px-4 pt-8 pb-4')}>
               <Text
-                style={tailwind(
-                  'text-center uppercase font-bold text-gray-800',
-                )}>
+                style={tailwind('text-left uppercase font-bold text-gray-800')}>
                 {moment(day, 'YYYY-MM-DD').format('dddd DD MMMM')}
               </Text>
             </View>

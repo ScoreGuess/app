@@ -12,12 +12,12 @@ type ButtonProps = {
 
 const variants = {
   background: {
-    primary: 'bg-red-600',
-    tertiary: '',
+    primary: 'border-gray-300',
+    tertiary: 'border-transparent',
   },
   text: {
-    primary: 'text-red-200',
-    tertiary: 'text-red-600',
+    primary: 'text-red-600',
+    tertiary: 'text-gray-600',
   },
 };
 const Button = ({
@@ -30,11 +30,13 @@ const Button = ({
     <View {...rest}>
       <TouchableOpacity
         style={tailwind(
-          `${variants.background[variant]} w-full p-4 rounded-md`,
+          `${variants.background[variant]} border-2 px-4 w-full p-4 rounded-full`,
         )}
         onPress={onPress}>
         <Text
-          style={tailwind(`${variants.text[variant]} uppercase text-center`)}>
+          style={tailwind(
+            `${variants.text[variant]} font-bold uppercase text-center`,
+          )}>
           {children}
         </Text>
       </TouchableOpacity>
