@@ -14,7 +14,7 @@ import Button from '../../Shared/components/Button';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faChevronRight, faUserFriends} from '@fortawesome/free-solid-svg-icons';
 
-const GROUP_SEARCH = gql`
+export const SEARCH_GROUPS = gql`
   query groupSearch {
     groups {
       id
@@ -34,7 +34,7 @@ const GROUP_SEARCH = gql`
 `;
 
 const GroupsView = (props) => {
-  const {loading, data, error} = useQuery(GROUP_SEARCH);
+  const {loading, data, error} = useQuery(SEARCH_GROUPS);
   const {navigate} = useNavigation();
   if (loading) {
     return <ActivityIndicator />;
@@ -57,11 +57,15 @@ const GroupsView = (props) => {
               navigate('Group', {group});
             }}>
             <View
-              style={tailwind(' flex-row justify-between items-center p-4')}>
+              style={tailwind(
+                ' flex-row justify-between items-center p-4 border-b-2 border-gray-300',
+              )}>
               <View style={tailwind('flex-1')}>
                 <Text style={tailwind('mb-1')}>{group.name}</Text>
                 <Text style={tailwind('text-gray-600')}>
-                  {group.participants.length} participants
+                  {group.participants.length <= 1
+                    ? 'Invite tes potes'
+                    : `${group.participants.length} participants`}
                 </Text>
               </View>
               <Pressable style={tailwind('flex-initial')}>
@@ -74,10 +78,15 @@ const GroupsView = (props) => {
             </View>
           </Pressable>
         ))}
-      </Card>
-      <Card style={tailwind('mt-4 bg-white p-4')}>
-        <Button style={tailwind('mb-4')}>Créer un groupe</Button>
-        <Button>Joindre un groupe</Button>
+        <View style={tailwind('my-4 p-4')}>
+          <Button
+            style={tailwind('mb-4')}
+            onPress={() => {
+              navigate('Add');
+            }}>
+            Créer un groupe
+          </Button>
+        </View>
       </Card>
     </ScrollView>
   );

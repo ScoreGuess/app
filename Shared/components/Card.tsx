@@ -22,8 +22,7 @@ const Card = ({children, style}) => {
   return (
     <View
       style={{
-        ...style,
-        ...tailwind('rounded-lg'),
+        ...tailwind('rounded-lg bg-white'),
         shadowColor: getColor('gray-900'),
         shadowOffset: {
           width: 0,
@@ -32,6 +31,7 @@ const Card = ({children, style}) => {
         shadowOpacity: 0.05,
         shadowRadius: 6,
         elevation: 12,
+        ...style,
       }}>
       {children}
     </View>

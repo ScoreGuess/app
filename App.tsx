@@ -20,7 +20,7 @@ import {
   faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
-import {SafeAreaView, StatusBar} from 'react-native';
+import {SafeAreaView, StatusBar, Text} from 'react-native';
 import {
   ApolloClient,
   InMemoryCache,
@@ -43,11 +43,23 @@ import GroupsScreen from './Group/components/GroupsScreen';
 declare const global: {HermesInternal: null | {}};
 
 const httpLink = createHttpLink({
-  //uri: 'http://localhost:5000/scoreguess-17a79/us-central1/graphql',
+  //uri: 'http://localhost:5001/scoreguess-17a79/us-central1/graphql',
   uri: 'https://us-central1-scoreguess-17a79.cloudfunctions.net/graphql',
 });
 
 const Tab = createBottomTabNavigator();
+const linking = {
+  prefixes: ['scoreguess://'],
+  config: {
+    screens: {
+      Groupes: {
+        screens: {
+          Join: 'join/:groupId',
+        },
+      },
+    },
+  },
+};
 
 const App = () => {
   // Set an initializing state whilst Firebase connects
@@ -98,7 +110,9 @@ const App = () => {
     <ApolloProvider client={client}>
       <SafeAreaView style={{flex: 0, ...tailwind('bg-gray-100')}} />
       <SafeAreaView style={tailwind('flex-1 bg-white')}>
-        <NavigationContainer>
+        <NavigationContainer
+          linking={linking}
+          fallback={<Text>chargement</Text>}>
           <Tab.Navigator
             tabBar={(props) => <TabBar {...props} />}
             screenOptions={({route}) => ({
@@ -119,8 +133,8 @@ const App = () => {
                 return <FontAwesomeIcon icon={icon} color={color} size={20} />;
               },
             })}>
-            <Tab.Screen name="Groupes" component={GroupsScreen} />
             <Tab.Screen name="Pronos" component={HomeScreen} />
+            <Tab.Screen name="Groupes" component={GroupsScreen} />
             <Tab.Screen name="Résultats" component={ResultsScreen} />
             <Tab.Screen name="Profil" component={ProfileScreen} />
           </Tab.Navigator>

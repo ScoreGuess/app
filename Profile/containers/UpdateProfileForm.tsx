@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import {Text, TextInput, View} from 'react-native';
-import tailwind, {getColor} from 'tailwind-rn';
+import tailwind from 'tailwind-rn';
 import Button from '../../Shared/components/Button';
 import auth from '@react-native-firebase/auth';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faSlidersH} from '@fortawesome/free-solid-svg-icons';
 import Card from '../../Shared/components/Card';
 

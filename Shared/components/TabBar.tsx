@@ -42,6 +42,7 @@ function TabBar({state, descriptors, navigation}) {
         const Icon = options.tabBarIcon;
         return (
           <TouchableOpacity
+            key={index}
             accessibilityRole="button"
             accessibilityStates={isFocused ? ['selected'] : []}
             accessibilityLabel={options.tabBarAccessibilityLabel}
