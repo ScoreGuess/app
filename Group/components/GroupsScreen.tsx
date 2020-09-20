@@ -3,29 +3,38 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {Text, View} from 'react-native';
 import Screen from '../../Shared/components/Screen';
 import GroupsView from '../containers/GroupsView';
+import GroupView from './GroupView';
+import HeaderLeft from '../../Shared/components/HeaderLeft';
 
 const Stack = createStackNavigator();
-const GroupView = ({group}) => {
-  return (
-    <View>
-      <Text>Lance toi !</Text>
-      <Text>Créés un groupe</Text>
-      <Text>{JSON.stringify({group})}</Text>
-    </View>
-  );
-};
 
 const AddGroup = ({}) => (
   <View>
     <Text>test</Text>
   </View>
 );
+
+const stackOptions = {
+  headerStyle: {backgroundColor: 'transparent', borderColor: 'transparent'},
+  headerTitle: () => null,
+};
 const GroupsScreen = ({}) => (
   <Screen>
     <Stack.Navigator>
-      <Stack.Screen name={'Home'} component={GroupsView} />
-      <Stack.Screen name={'Add'} component={AddGroup} />
-      <Stack.Screen name="Group" component={GroupView} />
+      <Stack.Screen
+        options={stackOptions}
+        name={'Home'}
+        component={GroupsView}
+      />
+      <Stack.Screen name={'Add'} options={stackOptions} component={AddGroup} />
+      <Stack.Screen
+        name="Group"
+        options={{
+          ...stackOptions,
+          headerLeft: HeaderLeft,
+        }}
+        component={GroupView}
+      />
     </Stack.Navigator>
   </Screen>
 );

@@ -42,8 +42,8 @@ const GroupsView = (props) => {
   const groups = data?.groups ?? [{participants: []}];
 
   return (
-    <ScrollView style={tailwind('p-2')}>
-      <Card style={tailwind(' bg-white')}>
+    <ScrollView style={tailwind('px-2 bg-gray-100')}>
+      <Card style={tailwind('bg-white')}>
         <Card.Header
           title="Groupes"
           icon={faUserFriends}
@@ -58,11 +58,13 @@ const GroupsView = (props) => {
             }}>
             <View
               style={tailwind(' flex-row justify-between items-center p-4')}>
-              <View>
-                <Text>{group.name}</Text>
-                <Text>{group.participants.length} participants</Text>
+              <View style={tailwind('flex-1')}>
+                <Text style={tailwind('mb-1')}>{group.name}</Text>
+                <Text style={tailwind('text-gray-600')}>
+                  {group.participants.length} participants
+                </Text>
               </View>
-              <Pressable>
+              <Pressable style={tailwind('flex-initial')}>
                 <FontAwesomeIcon
                   icon={faChevronRight}
                   color={getColor('red-600')}

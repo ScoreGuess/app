@@ -49,13 +49,13 @@ function TabBar({state, descriptors, navigation}) {
             onPress={onPress}
             onLongPress={onLongPress}
             style={tailwind('flex-1')}>
-            <View style={tailwind('flex-col items-center pt-2')}>
-              <View style={tailwind('mb-2')}>
+            <View style={tailwind('flex-col items-center pt-1')}>
+              <View style={tailwind('mb-1')}>
                 <Icon
                   color={isFocused ? getColor('red-600') : getColor('gray-500')}
                 />
               </View>
-              <Text style={tailwind('text-sm')}>{label}</Text>
+              <Text style={tailwind('text-xs')}>{label}</Text>
             </View>
           </TouchableOpacity>
         );

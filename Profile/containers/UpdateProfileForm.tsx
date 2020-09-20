@@ -13,7 +13,7 @@ const UpdateProfileForm = ({}) => {
   return (
     <Card style={tailwind('bg-white')}>
       <Card.Header
-        title="Profile"
+        title="Profil"
         desc="Modifie les infos de ton compte ici"
         icon={faSlidersH}
         color="red-600"
