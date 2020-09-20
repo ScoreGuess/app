@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
-import tailwind from 'tailwind-rn';
+import tailwind, {getColor} from 'tailwind-rn';
 import {
-  Text,
-  View,
+  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
-  ActivityIndicator,
-  TouchableHighlight,
+  Pressable,
+  Text,
+  View,
 } from 'react-native';
 import Screen from '../../Shared/components/Screen';
 import FixtureList from '../containers/FixtureList';
@@ -14,19 +14,28 @@ import FixtureView from './FixtureView';
 import {gql, useQuery} from '@apollo/client';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faArrowLeft, faArrowRight} from '@fortawesome/free-solid-svg-icons';
+
 const CURRENT_MATCH_DAY = gql`
   query getCurrentMatchDay {
     currentMatchDay
   }
 `;
-const RoundedButton = ({onPress, icon}) => (
-  <TouchableHighlight
+const RoundedButton = ({onPress, icon, disabled}) => (
+  <Pressable
     style={tailwind(
-      'w-12 h-12 items-center justify-center bg-red-200 rounded-full',
+      `w-12 h-12 items-center justify-center ${
+        disabled === true ? 'bg-gray-200' : 'bg-red-200'
+      }
+       rounded-full`,
     )}
-    onPress={onPress}>
-    <FontAwesomeIcon icon={icon} color={'tomato'} size={12} />
-  </TouchableHighlight>
+    onPress={onPress}
+    disabled={disabled}>
+    <FontAwesomeIcon
+      icon={icon}
+      color={disabled === true ? getColor('gray-500') : getColor('red-600')}
+      size={12}
+    />
+  </Pressable>
 );
 
 const SelectedMatchDayView = ({matchDay}) => (
@@ -64,9 +73,17 @@ const HomeScreen = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View style={tailwind(' h-full justify-center w-full')}>
           <View style={tailwind('flex-row items-center p-4')}>
-            <RoundedButton onPress={onPressPrevious} icon={faArrowLeft} />
+            <RoundedButton
+              onPress={onPressPrevious}
+              disabled={matchDay <= 1}
+              icon={faArrowLeft}
+            />
             <SelectedMatchDayView matchDay={matchDay} />
-            <RoundedButton onPress={onPressNext} icon={faArrowRight} />
+            <RoundedButton
+              onPress={onPressNext}
+              disabled={matchDay >= currentMatchDay}
+              icon={faArrowRight}
+            />
           </View>
           <View style={tailwind('flex-1')}>
             <FixtureList matchDay={matchDay}>
