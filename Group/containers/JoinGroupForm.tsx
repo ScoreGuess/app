@@ -32,7 +32,7 @@ const JOIN_GROUP = gql`
 const JoinGroupForm = ({route}) => {
   const {groupId} = route?.params;
   const {reset} = useNavigation();
-  const {data, loading, error} = useQuery(READ_GROUP, {
+  const {data, loading} = useQuery(READ_GROUP, {
     variables: {groupId},
   });
   const [mutation] = useMutation(JOIN_GROUP, {
