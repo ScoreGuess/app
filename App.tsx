@@ -31,6 +31,7 @@ import HomeScreen from './Home/components/HomeScreen';
 import SignInScreen from './Auth/components/SignInScreen';
 import ProfileScreen from './Profile/components/ProfileScreen';
 import ResultsScreen from './Results/components/ResultsScreen';
+import TabBar from './Shared/components/TabBar';
 
 declare const global: {HermesInternal: null | {}};
 
@@ -84,13 +85,15 @@ const App = () => {
       </SafeAreaView>
     );
   }
-
+  // 2 SafeAreaView for having two colors:
+  //https://medium.com/reactbrasil/react-native-set-different-colors-on-top-and-bottom-in-safeareaview-component-f008823483f3
   return (
     <ApolloProvider client={client}>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={tailwind('h-full bg-gray-100')}>
+      <SafeAreaView style={{flex: 0, ...tailwind('bg-gray-100')}} />
+      <SafeAreaView style={tailwind('flex-1 bg-white')}>
         <NavigationContainer>
           <Tab.Navigator
+            tabBar={(props) => <TabBar {...props} />}
             screenOptions={({route}) => ({
               tabBarIcon: ({focused, color, size}) => {
                 let icon;
@@ -106,17 +109,14 @@ const App = () => {
                 // You can return any component that you like here!
                 return <FontAwesomeIcon icon={icon} color={color} size={20} />;
               },
-            })}
-            tabBarOptions={{
-              activeTintColor: 'tomato',
-              inactiveTintColor: 'gray',
-            }}>
+            })}>
             <Tab.Screen name="Pronos" component={HomeScreen} />
             <Tab.Screen name="Résultats" component={ResultsScreen} />
             <Tab.Screen name="Profil" component={ProfileScreen} />
           </Tab.Navigator>
         </NavigationContainer>
       </SafeAreaView>
+      <StatusBar barStyle="dark-content" />
     </ApolloProvider>
   );
 };

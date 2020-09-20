@@ -1,0 +1,67 @@
+import React from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
+import tailwind, {getColor} from 'tailwind-rn';
+
+function TabBar({state, descriptors, navigation}) {
+  const focusedOptions = descriptors[state.routes[state.index].key].options;
+
+  if (focusedOptions.tabBarVisible === false) {
+    return null;
+  }
+
+  return (
+    <View style={tailwind('bg-white p-2 flex-row')}>
+      {state.routes.map((route, index) => {
+        const {options} = descriptors[route.key];
+        const label =
+          options.tabBarLabel !== undefined
+            ? options.tabBarLabel
+            : options.title !== undefined
+            ? options.title
+            : route.name;
+
+        const isFocused = state.index === index;
+        const onPress = () => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: route.key,
+            canPreventDefault: true,
+          });
+
+          if (!isFocused && !event.defaultPrevented) {
+            navigation.navigate(route.name);
+          }
+        };
+
+        const onLongPress = () => {
+          navigation.emit({
+            type: 'tabLongPress',
+            target: route.key,
+          });
+        };
+        const Icon = options.tabBarIcon;
+        return (
+          <TouchableOpacity
+            accessibilityRole="button"
+            accessibilityStates={isFocused ? ['selected'] : []}
+            accessibilityLabel={options.tabBarAccessibilityLabel}
+            testID={options.tabBarTestID}
+            onPress={onPress}
+            onLongPress={onLongPress}
+            style={tailwind('flex-1')}>
+            <View style={tailwind('flex-col items-center pt-2')}>
+              <View style={tailwind('mb-2')}>
+                <Icon
+                  color={isFocused ? getColor('red-600') : getColor('gray-500')}
+                />
+              </View>
+              <Text style={tailwind('text-sm')}>{label}</Text>
+            </View>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+  );
+}
+
+export default TabBar;
