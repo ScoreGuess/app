@@ -12,7 +12,13 @@ import React, {useState, useEffect} from 'react';
 import 'react-native-gesture-handler';
 import tailwind from 'tailwind-rn';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faFutbol, faCog, faTable} from '@fortawesome/free-solid-svg-icons';
+import {
+  faFutbol,
+  faCog,
+  faTable,
+  faUserFriends,
+  faUserCircle,
+} from '@fortawesome/free-solid-svg-icons';
 
 import {SafeAreaView, StatusBar} from 'react-native';
 import {
@@ -32,6 +38,7 @@ import SignInScreen from './Auth/components/SignInScreen';
 import ProfileScreen from './Profile/components/ProfileScreen';
 import ResultsScreen from './Results/components/ResultsScreen';
 import TabBar from './Shared/components/TabBar';
+import GroupsScreen from './Group/components/GroupsScreen';
 
 declare const global: {HermesInternal: null | {}};
 
@@ -102,14 +109,17 @@ const App = () => {
                   icon = faFutbol;
                 } else if (route.name === 'Résultats') {
                   icon = faTable;
+                } else if (route.name === 'Groupes') {
+                  icon = faUserFriends;
                 } else {
-                  icon = faCog;
+                  icon = faUserCircle;
                 }
 
                 // You can return any component that you like here!
                 return <FontAwesomeIcon icon={icon} color={color} size={20} />;
               },
             })}>
+            <Tab.Screen name="Groupes" component={GroupsScreen} />
             <Tab.Screen name="Pronos" component={HomeScreen} />
             <Tab.Screen name="Résultats" component={ResultsScreen} />
             <Tab.Screen name="Profil" component={ProfileScreen} />

@@ -10,7 +10,7 @@ function TabBar({state, descriptors, navigation}) {
   }
 
   return (
-    <View style={tailwind('bg-white p-2 flex-row')}>
+    <View style={tailwind('bg-white border-t-2 border-gray-200 p-2 flex-row')}>
       {state.routes.map((route, index) => {
         const {options} = descriptors[route.key];
         const label =

@@ -4,7 +4,7 @@ import tailwind from 'tailwind-rn';
 
 type ScreenProps = {
   children: ReactNode;
-  style: any;
+  style?: any;
 };
 const Screen = ({children, style}: ScreenProps) => (
   <View style={{...style, ...tailwind('w-full h-full bg-gray-100')}}>

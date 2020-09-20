@@ -12,22 +12,13 @@ const UpdateProfileForm = ({}) => {
   const [displayName, setDisplayName] = useState(user.displayName);
   return (
     <Card style={tailwind('bg-white')}>
-      <View style={tailwind('flex-row items-center px-4 mt-8')}>
-        <View style={tailwind('rounded-lg p-3 mr-4 bg-red-600')}>
-          <FontAwesomeIcon
-            icon={faSlidersH}
-            color={getColor('white')}
-            size={24}
-          />
-        </View>
-        <View>
-          <Text style={tailwind('text-lg font-bold mb-1')}>Profil</Text>
-          <Text style={tailwind('text-gray-600')}>
-            Modifie les infos de ton compte ici
-          </Text>
-        </View>
-      </View>
-      <View style={tailwind('mt-8 border-t-2 border-gray-200 pt-4')}>
+      <Card.Header
+        title="Profile"
+        desc="Modifie les infos de ton compte ici"
+        icon={faSlidersH}
+        color="red-600"
+      />
+      <View style={tailwind('')}>
         <View style={tailwind('p-4')}>
           <Text style={tailwind('mb-2')}>Ton email</Text>
           <View style={tailwind('bg-gray-300 mb-4 p-4 rounded-lg')}>
