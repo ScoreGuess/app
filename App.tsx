@@ -10,7 +10,7 @@
 
 import React, {useState, useEffect} from 'react';
 import 'react-native-gesture-handler';
-import tailwind from 'tailwind-rn';
+import tailwind, {getColor} from 'tailwind-rn';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
   faFutbol,
@@ -140,7 +140,10 @@ const App = () => {
           </Tab.Navigator>
         </NavigationContainer>
       </SafeAreaView>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor={getColor('gray-100')}
+      />
     </ApolloProvider>
   );
 };

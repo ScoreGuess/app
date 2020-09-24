@@ -6,41 +6,41 @@ import GroupView from './GroupView';
 import HeaderLeft from '../../Shared/components/HeaderLeft';
 import AddGroupForm from '../containers/AddGroupForm';
 import JoinGroupForm from '../containers/JoinGroupForm';
+import tailwind, {getColor} from 'tailwind-rn';
+import {View} from 'react-native';
 
 const Stack = createStackNavigator();
 
 const stackOptions = {
-  headerStyle: {backgroundColor: 'transparent', borderColor: 'transparent'},
+  headerStyle: {
+    backgroundColor: getColor('gray-100'),
+    elevation: 0,
+    borderColor: 'transparent',
+  },
   headerTitle: () => null,
 };
 const GroupsScreen = ({}) => (
-  <Screen>
-    <Stack.Navigator>
-      <Stack.Screen
-        options={stackOptions}
-        name={'Home'}
-        component={GroupsView}
-      />
-      <Stack.Screen
-        name={'Add'}
-        options={{...stackOptions, headerLeft: HeaderLeft}}
-        component={AddGroupForm}
-      />
-      <Stack.Screen
-        name={'Join'}
-        options={{...stackOptions, headerLeft: HeaderLeft}}
-        component={JoinGroupForm}
-      />
-      <Stack.Screen
-        name="Group"
-        options={{
-          ...stackOptions,
-          headerLeft: HeaderLeft,
-        }}
-        component={GroupView}
-      />
-    </Stack.Navigator>
-  </Screen>
+  <Stack.Navigator>
+    <Stack.Screen options={stackOptions} name={'Home'} component={GroupsView} />
+    <Stack.Screen
+      name={'Add'}
+      options={{...stackOptions, headerLeft: HeaderLeft}}
+      component={AddGroupForm}
+    />
+    <Stack.Screen
+      name={'Join'}
+      options={{...stackOptions, headerLeft: HeaderLeft}}
+      component={JoinGroupForm}
+    />
+    <Stack.Screen
+      name="Group"
+      options={{
+        ...stackOptions,
+        headerLeft: HeaderLeft,
+      }}
+      component={GroupView}
+    />
+  </Stack.Navigator>
 );
 
 export default GroupsScreen;

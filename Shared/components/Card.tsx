@@ -30,7 +30,7 @@ const Card = ({children, style}) => {
         },
         shadowOpacity: 0.05,
         shadowRadius: 6,
-        elevation: 12,
+        elevation: 2,
         ...style,
       }}>
       {children}
