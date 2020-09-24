@@ -14,13 +14,11 @@ const points = {
   WRONG_RESULT: '+0 point',
 };
 const AttributeView = ({attribute}) => (
-  <View style={tailwind('flex-row items-end')}>
-    <View style={tailwind('items-end')}>
-      <Text style={tailwind('pb-1')}>{labels[attribute.type]}</Text>
-      <Text style={tailwind('font-bold text-red-600')}>
-        {points[attribute.type]}
-      </Text>
-    </View>
+  <View style={tailwind('flex-col flex-1 items-stretch')}>
+    <Text style={tailwind('pb-1 text-right')}>{labels[attribute.type]}</Text>
+    <Text style={tailwind('font-bold text-right text-red-600')}>
+      {points[attribute.type]}
+    </Text>
   </View>
 );
 

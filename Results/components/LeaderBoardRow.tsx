@@ -12,12 +12,12 @@ const LeaderBoardRow = ({participant, index}) => {
         `flex-row p-4 ${bgColor} rounded-lg my-2 justify-between`,
       )}
       key={participant.id}>
-      <View style={tailwind('flex-row justify-between items-center')}>
+      <View style={tailwind('flex-row w-full justify-between items-center')}>
         <Text style={tailwind('font-bold mr-2')}>{index + 2}ème</Text>
-        <Text>{participant.displayName ?? participant.email}</Text>
-      </View>
-      <View>
-        <Text style={tailwind('text-red-800 font-bold')}>
+        <Text style={tailwind('flex-1')}>
+          {participant.displayName ?? participant.email}
+        </Text>
+        <Text style={tailwind('text-red-800 px-1 font-bold')}>
           {participant.points}
         </Text>
       </View>

@@ -42,8 +42,8 @@ const FixtureView = ({fixture}) => {
       {fixture.status === 'FINISHED' && fixture.prediction != null && (
         <View style={tailwind(' border-t-2 border-gray-200 px-4 mb-2')}>
           <View style={tailwind('flex-row justify-between py-4 mt-4')}>
-            <Text style={tailwind(' font-bold')}>Pronostic</Text>
-            <View style={tailwind('flex-row ')}>
+            <Text style={tailwind('font-bold flex-1')}>Pronostic</Text>
+            <View style={tailwind('flex-row')}>
               <Text style={tailwind('font-bold')}>
                 {fixture.prediction.homeScore}
               </Text>

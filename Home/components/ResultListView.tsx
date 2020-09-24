@@ -10,7 +10,7 @@ const ResultListView = ({prediction}) => {
   return (
     <View style={tailwind('pt-2 pb-2')}>
       <View style={tailwind('flex-row justify-between pt-2 pb-2')}>
-        <Text style={tailwind('font-bold')}>Résultats</Text>
+        <Text style={tailwind('font-bold pr-1')}>Résultats</Text>
         {first && <AttributeView attribute={first} />}
       </View>
       {rest.map((attribute, i) => (

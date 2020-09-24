@@ -40,7 +40,7 @@ const RoundedButton = ({onPress, icon, disabled}) => (
 
 const SelectedMatchDayView = ({matchDay}) => (
   <View style={tailwind('flex-1 items-center')}>
-    <Text style={tailwind('text-xl font-bold  text-red-600')}>
+    <Text style={tailwind('w-full text-center text-xl font-bold text-red-600')}>
       {matchDay === 1 ? `${matchDay}ère` : `${matchDay}ème`}
       &nbsp;Journée
     </Text>
