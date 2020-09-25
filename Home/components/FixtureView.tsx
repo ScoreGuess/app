@@ -22,23 +22,25 @@ const ScoreView = ({fixture}) => {
 const FixtureView = ({fixture}) => {
   return (
     <Card style={tailwind('bg-white m-2 pt-4')}>
-      <View style={tailwind('flex-row items-start py-4')}>
-        <TeamView team={fixture.homeTeam} />
-        <View style={tailwind('flex-1')}>
-          {fixture.status === 'PLANNED' && (
-            <AddPredictionForm fixture={fixture} />
-          )}
-          {fixture.status === 'IN_PROGRESS' && (
+      {fixture.status === 'PLANNED' && <AddPredictionForm fixture={fixture} />}
+      {fixture.status === 'IN_PROGRESS' && (
+        <View style={tailwind('flex-row items-start py-4')}>
+          <TeamView team={fixture.homeTeam} />
+          <View style={tailwind('flex-1')}>
             <Text style={tailwind('text-center self-center')}>En cours</Text>
-          )}
-          {fixture.status === 'FINISHED' && (
-            <View style={tailwind('flex-1')}>
-              <ScoreView fixture={fixture} />
-            </View>
-          )}
+          </View>
+          <TeamView team={fixture.awayTeam} />
         </View>
-        <TeamView team={fixture.awayTeam} />
-      </View>
+      )}
+      {fixture.status === 'FINISHED' && (
+        <View style={tailwind('flex-row items-start py-4')}>
+          <TeamView team={fixture.homeTeam} />
+          <View style={tailwind('flex-1')}>
+            <ScoreView fixture={fixture} />
+          </View>
+          <TeamView team={fixture.awayTeam} />
+        </View>
+      )}
       {fixture.status === 'FINISHED' && fixture.prediction != null && (
         <View style={tailwind(' border-t-2 border-gray-200 px-4 mb-2')}>
           <View style={tailwind('flex-row justify-between py-4 mt-4')}>
