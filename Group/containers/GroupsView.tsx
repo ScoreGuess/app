@@ -42,55 +42,57 @@ const GroupsView = (props) => {
   const groups = data?.groups ?? [{participants: []}];
 
   return (
-    <ScrollView>
-      <View style={tailwind('px-2 bg-gray-100 pb-8')}>
-        <Card style={tailwind('bg-white')}>
-          <Card.Header
-            title="Groupes"
-            icon={faUserFriends}
-            color="red-600"
-            desc="Retrouve ton classement dans tes groupes patitateta patatata pergerg e azd gre hy(tzd pjnirnverv"
-          />
-          {groups.map((group, i) => (
-            <Pressable
-              key={i}
-              onPress={() => {
-                navigate('Group', {group});
-              }}>
-              <View
-                style={tailwind(
-                  ' flex-row justify-between items-center p-4 border-b-2 border-gray-300',
-                )}>
-                <View style={tailwind('flex-1')}>
-                  <Text style={tailwind('mb-1')}>{group.name}</Text>
-                  <Text style={tailwind('text-gray-600')}>
-                    {group.participants.length <= 1
-                      ? 'Invite tes potes'
-                      : `${group.participants.length} participants`}
-                  </Text>
+    <View style={tailwind('bg-gray-100 h-full')}>
+      <ScrollView>
+        <View style={tailwind('px-2  pb-8')}>
+          <Card style={tailwind('bg-white')}>
+            <Card.Header
+              title="Groupes"
+              icon={faUserFriends}
+              color="red-600"
+              desc="Retrouve ton classement dans tes groupes patitateta patatata pergerg e azd gre hy(tzd pjnirnverv"
+            />
+            {groups.map((group, i) => (
+              <Pressable
+                key={i}
+                onPress={() => {
+                  navigate('Group', {group});
+                }}>
+                <View
+                  style={tailwind(
+                    ' flex-row justify-between items-center p-4 border-b-2 border-gray-300',
+                  )}>
+                  <View style={tailwind('flex-1')}>
+                    <Text style={tailwind('mb-1')}>{group.name}</Text>
+                    <Text style={tailwind('text-gray-600')}>
+                      {group.participants.length <= 1
+                        ? 'Invite tes potes'
+                        : `${group.participants.length} participants`}
+                    </Text>
+                  </View>
+                  <Pressable style={tailwind('flex-initial')}>
+                    <FontAwesomeIcon
+                      icon={faChevronRight}
+                      color={getColor('red-600')}
+                      size={16}
+                    />
+                  </Pressable>
                 </View>
-                <Pressable style={tailwind('flex-initial')}>
-                  <FontAwesomeIcon
-                    icon={faChevronRight}
-                    color={getColor('red-600')}
-                    size={16}
-                  />
-                </Pressable>
-              </View>
-            </Pressable>
-          ))}
-          <View style={tailwind('my-4 p-4')}>
-            <Button
-              style={tailwind('mb-4')}
-              onPress={() => {
-                navigate('Add');
-              }}>
-              Créer un groupe
-            </Button>
-          </View>
-        </Card>
-      </View>
-    </ScrollView>
+              </Pressable>
+            ))}
+            <View style={tailwind('my-4 p-4')}>
+              <Button
+                style={tailwind('mb-4')}
+                onPress={() => {
+                  navigate('Add');
+                }}>
+                Créer un groupe
+              </Button>
+            </View>
+          </Card>
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 

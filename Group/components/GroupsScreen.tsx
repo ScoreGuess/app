@@ -16,6 +16,7 @@ const stackOptions = {
     backgroundColor: getColor('gray-100'),
     elevation: 0,
     borderColor: 'transparent',
+    borderWidth: 0,
   },
   headerTitle: () => null,
 };
