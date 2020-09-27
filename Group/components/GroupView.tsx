@@ -1,6 +1,6 @@
 import {computePoints} from '../../Results/utils';
 import {ScrollView, Share, Text, View} from 'react-native';
-import {encode} from 'base-64';
+import {encode as base64Encoded} from 'base-64';
 import tailwind from 'tailwind-rn';
 import Card from '../../Shared/components/Card';
 import React from 'react';
@@ -47,9 +47,10 @@ const GroupView = ({route}) => {
     }))
     .sort((a, b) => b.points - a.points);
 
-  const token = encode(
+  // prevent the app from complaining
+  const token = base64Encoded(
     JSON.stringify({
-      name: group.name,
+      name: encodeURIComponent(group.name),
       id: group.id,
     }),
   );
