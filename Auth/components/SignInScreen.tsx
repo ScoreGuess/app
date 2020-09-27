@@ -53,6 +53,8 @@ const SignInScreen = () => {
   });
   const handleSubmit = async () => {
     try {
+      // gauthiergate
+      if (state.email == '' || state.password == '') return;
       if (state.method === 'signIn') {
         await auth().createUserWithEmailAndPassword(
           state.email,
