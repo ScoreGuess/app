@@ -33,8 +33,8 @@ export const SEARCH_GROUPS = gql`
   }
 `;
 
-const GroupsView = (props) => {
-  const {loading, data, error} = useQuery(SEARCH_GROUPS);
+const GroupsView = () => {
+  const {loading, data} = useQuery(SEARCH_GROUPS);
   const {navigate} = useNavigation();
   if (loading) {
     return <ActivityIndicator />;
@@ -50,7 +50,7 @@ const GroupsView = (props) => {
               title="Groupes"
               icon={faUserFriends}
               color="red-600"
-              desc="Retrouve ton classement dans tes groupes patitateta patatata pergerg e azd gre hy(tzd pjnirnverv"
+              desc="Retrouve ton classement dans tes groupes"
             />
             {groups.map((group, i) => (
               <Pressable
