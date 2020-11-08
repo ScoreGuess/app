@@ -5,19 +5,7 @@ import React from 'react';
 import TeamView from './TeamView';
 import ResultListView from './ResultListView';
 import Card from '../../Shared/components/Card';
-
-const ScoreView = ({fixture}) => {
-  return (
-    <View style={tailwind('flex-row')}>
-      <Text style={tailwind('font-bold flex-1 mx-2 p-4 text-center text-lg ')}>
-        {fixture.homeScore}
-      </Text>
-      <Text style={tailwind('font-bold flex-1 mx-2 p-4 text-center text-lg ')}>
-        {fixture.awayScore}
-      </Text>
-    </View>
-  );
-};
+import ScoreView from './ScoreView';
 
 const FixtureView = ({fixture}) => {
   return (

@@ -33,12 +33,12 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
 
-import HomeScreen from './Home/components/HomeScreen';
+import PreviousDaysScreen from './Home/components/PreviousDaysScreen';
 import SignInScreen from './Auth/components/SignInScreen';
 import ProfileScreen from './Profile/components/ProfileScreen';
-import ResultsScreen from './Results/components/ResultsScreen';
 import TabBar from './Shared/components/TabBar';
 import GroupsScreen from './Group/components/GroupsScreen';
+import PronosticScreen from './Prediction/components/PronosticScreen';
 
 declare const global: {HermesInternal: null | {}};
 
@@ -133,9 +133,9 @@ const App = () => {
                 return <FontAwesomeIcon icon={icon} color={color} size={20} />;
               },
             })}>
-            <Tab.Screen name="Pronos" component={HomeScreen} />
+            <Tab.Screen name="Pronos" component={PronosticScreen} />
             <Tab.Screen name="Groupes" component={GroupsScreen} />
-            <Tab.Screen name="Résultats" component={ResultsScreen} />
+            <Tab.Screen name="Résultats" component={PreviousDaysScreen} />
             <Tab.Screen name="Profil" component={ProfileScreen} />
           </Tab.Navigator>
         </NavigationContainer>

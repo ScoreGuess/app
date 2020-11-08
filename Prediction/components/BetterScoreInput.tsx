@@ -9,14 +9,17 @@ const BetterScoreInput = ({onChange, value}) => {
     onChange(state);
   }, [state]);
   return (
-    <View style={tailwind('flex-row items-center')}>
+    <View
+      style={tailwind(
+        'flex-row items-center bg-gray-200 rounded-full border-2 border-gray-200',
+      )}>
       <Pressable
         onPress={() =>
           setState((s) => (Number.isInteger(s) && s > 0 ? --s : 0))
         }>
         <View
           style={tailwind(
-            'border-2 w-10 flex-row justify-center items-center h-10 border-gray-200 rounded-full',
+            'w-10 flex-row justify-center items-center h-10 bg-white rounded-full',
           )}>
           <FontAwesomeIcon
             icon={faMinus}
@@ -27,7 +30,7 @@ const BetterScoreInput = ({onChange, value}) => {
       </Pressable>
       <View
         style={tailwind(
-          'w-10 h-10 bg-gray-200 rounded-full mx-2 flex-row items-center',
+          'w-10 h-10 bg-gray-200 rounded-full mx-1 flex-row items-center',
         )}>
         <Text style={tailwind('flex-1 font-bold text-center')}>{state}</Text>
       </View>
@@ -35,7 +38,7 @@ const BetterScoreInput = ({onChange, value}) => {
         onPress={() => setState((s) => (Number.isInteger(s) ? ++s : 1))}>
         <View
           style={tailwind(
-            'border-2 h-10 w-10 flex-row justify-center items-center border-gray-200 rounded-full mr-1',
+            ' h-10 w-10 flex-row justify-center items-center bg-white  rounded-full',
           )}>
           <FontAwesomeIcon
             icon={faPlus}

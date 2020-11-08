@@ -5008,6 +5008,11 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
+match-all@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/match-all/-/match-all-1.2.6.tgz#66d276ad6b49655551e63d3a6ee53e8be0566f8d"
+  integrity sha512-0EESkXiTkWzrQQntBu2uzKvLu6vVkUGz40nGPbSZuegcfE5UuSzNjLaIu76zJWuaT/2I3Z/8M06OlUOZLGwLlQ==
+
 mdn-data@2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/mdn-data/-/mdn-data-2.0.6.tgz#852dc60fcaa5daa2e8cf6c9189c440ed3e042978"
@@ -7281,13 +7286,14 @@ table@^5.2.3:
     slice-ansi "^2.1.0"
     string-width "^3.0.0"
 
-tailwind-rn@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/tailwind-rn/-/tailwind-rn-1.1.1.tgz#68c47afef4c9e0e148802ab6bfe589591faa9b94"
-  integrity sha512-Kt4Jc2RuLiJD9rL/OBYogHWPwOOoVR167vkrKi7MOmB/eKWOWtaYAHx2ZQNNdURSI4pCoE1icgrmW0iVIaE2qw==
+tailwind-rn@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/tailwind-rn/-/tailwind-rn-2.0.0.tgz#91bb9fbe765fd5397c24a5f73bdf66067f079a81"
+  integrity sha512-lSDoRElL6TGLmKNDJ/lyh/Rp6Ptq2nr07mUNaDoQOfvdrBVpfpmaWYDTZiSxfNG29dCYuI+6RP9vkOAWSGeTnA==
   dependencies:
     css "^2.2.4"
     css-to-react-native "^3.0.0"
+    match-all "^1.2.6"
     meow "^7.0.1"
     postcss "^7.0.30"
 

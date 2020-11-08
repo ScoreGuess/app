@@ -34,7 +34,7 @@
     "react-native-screens": "^2.10.1",
     "react-native-svg": "^12.1.0",
     "react-use": "^15.3.3",
-    "tailwind-rn": "^1.1.1"
+    "tailwind-rn": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",

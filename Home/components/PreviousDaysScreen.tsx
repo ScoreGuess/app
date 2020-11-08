@@ -47,25 +47,28 @@ const SelectedMatchDayView = ({matchDay}) => (
   </View>
 );
 
-const HomeScreen = () => {
+const PreviousDaysScreen = () => {
   const {loading, data} = useQuery(CURRENT_MATCH_DAY);
-  const currentMatchDay = data?.currentMatchDay;
+  const lastDay = data?.currentMatchDay - 1;
 
-  const [matchDay, setMatchDay] = React.useState(currentMatchDay);
+  // set to previous day
+  const [matchDay, setMatchDay] = React.useState(lastDay);
   useEffect(() => {
-    if (currentMatchDay != null) setMatchDay(currentMatchDay);
-  }, [currentMatchDay]);
+    if (lastDay != null) {
+      setMatchDay(lastDay);
+    }
+  }, [setMatchDay, lastDay]);
 
-  if (loading === true)
+  if (loading) {
     return (
       <Screen>
         <ActivityIndicator />
       </Screen>
     );
+  }
 
   const onPressPrevious = () => setMatchDay((s) => (s <= 1 ? 1 : --s));
-  const onPressNext = () =>
-    setMatchDay((s) => (s >= currentMatchDay ? s : ++s));
+  const onPressNext = () => setMatchDay((s) => (s >= lastDay ? s : ++s));
 
   return (
     <Screen>
@@ -81,7 +84,7 @@ const HomeScreen = () => {
             <SelectedMatchDayView matchDay={matchDay} />
             <RoundedButton
               onPress={onPressNext}
-              disabled={matchDay >= currentMatchDay}
+              disabled={matchDay >= lastDay}
               icon={faArrowRight}
             />
           </View>
@@ -96,4 +99,4 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default PreviousDaysScreen;

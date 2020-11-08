@@ -5,15 +5,15 @@ import {faChevronLeft} from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 
 const HeaderLeft = ({onPress}) => (
-  <View style={tailwind('flex-row p-1')}>
-    <View style={tailwind('flex-initial mr-1')}>
+  <View style={tailwind('flex-row p-4')}>
+    <View style={tailwind('flex-initial mr-2')}>
       <FontAwesomeIcon
         icon={faChevronLeft}
         color={getColor('red-600')}
         size={16}
       />
     </View>
-    <Text style={tailwind('flex-1')} onPress={onPress}>
+    <Text style={tailwind('flex-1 font-bold')} onPress={onPress}>
       Retour
     </Text>
   </View>
