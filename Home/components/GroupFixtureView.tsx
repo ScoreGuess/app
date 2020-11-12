@@ -78,7 +78,7 @@ const GroupFixtureView = ({fixture, group}) => (
       </View>
       <TeamView team={fixture.awayTeam} />
     </View>
-    {fixture.status === 'FINISHED' && fixture.prediction != null && (
+    {fixture.status === 'FINISHED' && (
       <View style={tailwind(' border-t-2 border-gray-200 px-2 mb-2')}>
         {/*<View style={tailwind('flex-row justify-between py-4 mt-4')}>
           <Text style={tailwind('font-bold flex-1')}>Pronostic</Text>
@@ -92,10 +92,12 @@ const GroupFixtureView = ({fixture, group}) => (
             </Text>
           </View>
         </View>*/}
-        <ResultListView
-          prediction={fixture.prediction}
-          style={tailwind('bg-gray-200 my-2 px-2 rounded-md')}
-        />
+        {fixture.prediction != null && (
+          <ResultListView
+            prediction={fixture.prediction}
+            style={tailwind('bg-gray-200 my-2 px-2 rounded-md')}
+          />
+        )}
         <PronosticsAccordeon fixture={fixture} />
       </View>
     )}
