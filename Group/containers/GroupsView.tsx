@@ -19,11 +19,15 @@ export const SEARCH_GROUPS = gql`
     groups {
       id
       name
+      createdAt
       participants {
         id
         email
         displayName
         predictions {
+          fixture {
+            startDate
+          }
           attributes {
             type
           }

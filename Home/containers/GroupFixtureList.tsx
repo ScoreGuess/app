@@ -12,8 +12,12 @@ import moment from 'moment';
 import 'moment/locale/fr';
 
 export const SEARCH_GROUP_FIXTURES = gql`
-  query getAllFixturesPredictions($matchDay: Int, $groupId: String) {
-    fixtures(matchDay: $matchDay, groupId: $groupId) {
+  query getAllFixturesPredictions(
+    $start: String
+    $end: String
+    $groupId: String
+  ) {
+    fixtures(start: $start, end: $end, groupId: $groupId) {
       startDate
       id
       status
@@ -58,19 +62,16 @@ type Fixture = {
 
 type FixtureListProps = {
   children: (fixture: Fixture) => ReactNode;
-  matchDay: number | null;
+  start: String | null;
 };
 
 moment.locale('fr');
 
-const GroupedFixtureList = ({
-  matchDay,
-  groupId,
-  children,
-}: FixtureListProps) => {
+const GroupedFixtureList = ({start, groupId, children}: FixtureListProps) => {
   const {loading, data, error, refetch} = useQuery(SEARCH_GROUP_FIXTURES, {
     variables: {
-      matchDay,
+      start,
+      end: moment(start).add('1', 'week').format('YYYY-MM-DD'),
       groupId,
     },
   });

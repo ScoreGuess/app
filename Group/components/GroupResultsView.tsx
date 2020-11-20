@@ -7,6 +7,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faArrowLeft, faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import GroupFixtureView from '../../Home/components/GroupFixtureView';
 import GroupedFixtureList from '../../Home/containers/GroupFixtureList';
+import moment from 'moment';
 
 const CURRENT_MATCH_DAY = gql`
   query getCurrentMatchDay {
@@ -31,37 +32,29 @@ const RoundedButton = ({onPress, icon, disabled}) => (
   </Pressable>
 );
 
-const SelectedMatchDayView = ({matchDay}) => (
+const SelectedMatchDayView = ({day}) => (
   <View style={tailwind('flex-1 items-center')}>
     <Text style={tailwind('w-full text-center font-bold text-red-600')}>
-      {matchDay === 1 ? `${matchDay}ère` : `${matchDay}ème`}
-      &nbsp;Journée
+      Semaine du {moment(day).format('L')}
     </Text>
   </View>
 );
 
 const GroupResultsView = ({group}) => {
-  const {loading, data} = useQuery(CURRENT_MATCH_DAY);
-  const lastDay = data?.currentMatchDay - 1;
-
+  const firstDayOfThisWeek = moment().isoWeekday(1);
   // set to previous day
-  const [matchDay, setMatchDay] = React.useState(lastDay);
-  useEffect(() => {
-    if (lastDay != null) {
-      setMatchDay(lastDay);
-    }
-  }, [setMatchDay, lastDay]);
-
-  if (loading) {
-    return (
-      <Screen>
-        <ActivityIndicator />
-      </Screen>
-    );
-  }
-
-  const onPressPrevious = () => setMatchDay((s) => (s <= 1 ? 1 : --s));
-  const onPressNext = () => setMatchDay((s) => (s >= lastDay ? s : ++s));
+  const [current, setCurrent] = React.useState(
+    firstDayOfThisWeek.format('YYYY-MM-DD'),
+  );
+  const onPressPrevious = () => {
+    setCurrent((s) => {
+      return moment(s).subtract('1', 'week');
+    });
+  };
+  const onPressNext = () =>
+    setCurrent((s) => {
+      return moment(s).add('1', 'week');
+    });
 
   return (
     <View style={tailwind(' h-full justify-center w-full')}>
@@ -71,18 +64,20 @@ const GroupResultsView = ({group}) => {
         )}>
         <RoundedButton
           onPress={onPressPrevious}
-          disabled={matchDay <= 1}
+          disabled={moment(current).isBefore(moment(group.createdAt))}
           icon={faArrowLeft}
         />
-        <SelectedMatchDayView matchDay={matchDay} />
+        <SelectedMatchDayView day={current} />
         <RoundedButton
           onPress={onPressNext}
-          disabled={matchDay >= lastDay}
+          disabled={moment(current).isSameOrAfter(firstDayOfThisWeek, 'day')}
           icon={faArrowRight}
         />
       </View>
       <View style={tailwind('flex-1')}>
-        <GroupedFixtureList matchDay={matchDay} groupId={group.id}>
+        <GroupedFixtureList
+          groupId={group.id}
+          start={moment(current).format('YYYY-MM-DD')}>
           {(fixture) => (
             <GroupFixtureView
               key={fixture.id}

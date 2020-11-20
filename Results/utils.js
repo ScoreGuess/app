@@ -1,5 +1,8 @@
-export const computePoints = (user) =>
+import moment from 'moment';
+
+export const computePoints = (user, createdAt) =>
   Object.values(user.predictions ?? {})
+    .filter((p) => moment(p.fixture.startDate).isAfter(createdAt))
     .flatMap((prediction) => prediction.attributes)
     .map((attribute) => attribute.type)
     .reduce((sum, type) => {

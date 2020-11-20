@@ -11,7 +11,7 @@ const LeaderBoardView = ({group}) => {
   const participants = group.participants
     .map((participant) => ({
       ...participant,
-      points: computePoints(participant),
+      points: computePoints(participant, group.createdAt),
     }))
     .sort((a, b) => b.points - a.points);
   // prevent the app from complaining
@@ -28,7 +28,7 @@ const LeaderBoardView = ({group}) => {
         {participants.length <= 1 ? (
           <AloneDisclaimer group={group} />
         ) : (
-          <ParticipantsView participants={participants} />
+          <ParticipantsView group={{...group, participants}} />
         )}
         <View style={tailwind('mt-4')}>
           <Button

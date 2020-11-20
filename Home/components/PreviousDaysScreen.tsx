@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import tailwind, {getColor} from 'tailwind-rn';
 import {
-  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -11,15 +10,10 @@ import {
 import Screen from '../../Shared/components/Screen';
 import FixtureList from '../containers/FixtureList';
 import FixtureView from './FixtureView';
-import {gql, useQuery} from '@apollo/client';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faArrowLeft, faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment';
 
-const CURRENT_MATCH_DAY = gql`
-  query getCurrentMatchDay {
-    currentMatchDay
-  }
-`;
 const RoundedButton = ({onPress, icon, disabled}) => (
   <Pressable
     style={tailwind(
@@ -41,34 +35,21 @@ const RoundedButton = ({onPress, icon, disabled}) => (
 const SelectedMatchDayView = ({matchDay}) => (
   <View style={tailwind('flex-1 items-center')}>
     <Text style={tailwind('w-full text-center text-xl font-bold text-red-600')}>
-      {matchDay === 1 ? `${matchDay}ère` : `${matchDay}ème`}
-      &nbsp;Journée
+      Semaine du {moment(matchDay).format('L')}
     </Text>
   </View>
 );
 
 const PreviousDaysScreen = () => {
-  const {loading, data} = useQuery(CURRENT_MATCH_DAY);
-  const lastDay = data?.currentMatchDay - 1;
-
   // set to previous day
-  const [matchDay, setMatchDay] = React.useState(lastDay);
-  useEffect(() => {
-    if (lastDay != null) {
-      setMatchDay(lastDay);
-    }
-  }, [setMatchDay, lastDay]);
+  const [matchDay, setMatchDay] = React.useState(
+    moment().startOf('week').isoWeekday(1).format('YYYY-MM-DD'),
+  );
 
-  if (loading) {
-    return (
-      <Screen>
-        <ActivityIndicator />
-      </Screen>
-    );
-  }
-
-  const onPressPrevious = () => setMatchDay((s) => (s <= 1 ? 1 : --s));
-  const onPressNext = () => setMatchDay((s) => (s >= lastDay ? s : ++s));
+  const onPressPrevious = () =>
+    setMatchDay((s) => moment(s).subtract(1, 'week').format('YYYY-MM-DD'));
+  const onPressNext = () =>
+    setMatchDay((s) => moment(s).add(1, 'week').format('YYYY-MM-DD'));
 
   return (
     <Screen>
@@ -78,18 +59,18 @@ const PreviousDaysScreen = () => {
           <View style={tailwind('flex-row items-center p-4')}>
             <RoundedButton
               onPress={onPressPrevious}
-              disabled={matchDay <= 1}
+              disabled={false}
               icon={faArrowLeft}
             />
             <SelectedMatchDayView matchDay={matchDay} />
             <RoundedButton
               onPress={onPressNext}
-              disabled={matchDay >= lastDay}
+              disabled={false}
               icon={faArrowRight}
             />
           </View>
           <View style={tailwind('flex-1')}>
-            <FixtureList matchDay={matchDay}>
+            <FixtureList start={matchDay}>
               {(fixture) => <FixtureView key={fixture.id} fixture={fixture} />}
             </FixtureList>
           </View>
