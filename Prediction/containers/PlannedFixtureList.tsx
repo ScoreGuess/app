@@ -18,6 +18,10 @@ export const SEARCH_FIXTURES = gql`
       startDate
       id
       status
+      competition {
+        id
+        name
+      }
       matchDay
       prediction {
         attributes {
@@ -100,34 +104,48 @@ const GroupedFixtureList = ({children}: FixtureListProps) => {
 };
 
 const Day = ({fixtures, children, onRefresh, refreshing}) => {
-  const groupingBy = fixtures.reduce((groupedFixtures, fixture) => {
-    const day = fixture.startDate.substring(0, 10);
-    const group = groupedFixtures[day] ?? [];
-    return {...groupedFixtures, [day]: [...group, fixture]};
+  const groupedByCompetition = fixtures.reduce((groupedFixtures, fixture) => {
+    const {name} = fixture.competition;
+    const group = groupedFixtures[name] ?? {};
+    const matchDay = fixture.matchDay;
+    const fixturesByMatchDay = group[matchDay] ?? [];
+    return {
+      ...groupedFixtures,
+      [name]: {
+        ...groupedFixtures[name],
+        [matchDay]: [...fixturesByMatchDay, fixture],
+      },
+    };
   }, {});
+
   return (
     <ScrollView
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      {Object.entries(groupingBy)
-        .sort(([a], [b]) => {
-          return (
-            moment(a, 'YYYY-MM-DD').format('YYYYMMDD') -
-            moment(b, 'YYYY-MM-DD').format('YYYYMMDD')
-          );
-        })
-        .map(([day, fixtures]) => (
-          <View key={day}>
-            <View style={tailwind('px-4 pt-8 pb-4')}>
-              <Text
-                style={tailwind('text-left uppercase font-bold text-gray-800')}>
-                {moment(day, 'YYYY-MM-DD').format('dddd DD MMMM')}
-              </Text>
-            </View>
-            <View>{fixtures.map(children)}</View>
+      {Object.entries(groupedByCompetition).map(([competition, days]) => (
+        <View key={competition}>
+          <View style={tailwind('px-4 pt-8 pb-4')}>
+            <Text
+              style={tailwind('text-left uppercase font-bold text-gray-800')}>
+              {competition}
+            </Text>
           </View>
-        ))}
+          <View>
+            {Object.entries(days).map(([day, fixtures]) => (
+              <View key={day}>
+                <View style={tailwind('p-4')}>
+                  <Text style={tailwind('text-left uppercase text-gray-800')}>
+                    {day}ème journée
+                  </Text>
+                </View>
+                <View>{fixtures.map(children)}</View>
+              </View>
+            ))}
+          </View>
+        </View>
+      ))}
+
       {/* mt-16 is required to add some space between the keyboard and the last fixture view */}
       <View style={tailwind('mt-16')} />
     </ScrollView>
