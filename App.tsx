@@ -14,7 +14,6 @@ import tailwind, {getColor} from 'tailwind-rn';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
   faFutbol,
-  faCog,
   faTable,
   faUserFriends,
   faUserCircle,
@@ -33,12 +32,12 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
 
-import PreviousDaysScreen from './Home/components/PreviousDaysScreen';
 import SignInScreen from './Auth/components/SignInScreen';
 import ProfileScreen from './Profile/components/ProfileScreen';
 import TabBar from './Shared/components/TabBar';
 import GroupsScreen from './Group/components/GroupsScreen';
 import PronosticScreen from './Prediction/components/PronosticScreen';
+import ResultsScreen from "./Results/containers/ResultsScreen";
 
 declare const global: {HermesInternal: null | {}};
 
@@ -135,7 +134,7 @@ const App = () => {
             })}>
             <Tab.Screen name="Pronos" component={PronosticScreen} />
             <Tab.Screen name="Groupes" component={GroupsScreen} />
-            <Tab.Screen name="Résultats" component={PreviousDaysScreen} />
+            <Tab.Screen name="Résultats" component={ResultsScreen} />
             <Tab.Screen name="Profil" component={ProfileScreen} />
           </Tab.Navigator>
         </NavigationContainer>

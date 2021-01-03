@@ -1,138 +1,71 @@
-import React, {ReactNode, useEffect} from 'react';
-import {
-  ActivityIndicator,
-  RefreshControl,
-  Text,
-  ScrollView,
-  View,
-} from 'react-native';
+import React, {ReactNode} from 'react';
+import {ActivityIndicator, SectionList, View} from 'react-native';
 import tailwind from 'tailwind-rn';
-import {gql, useQuery} from '@apollo/client';
+import {useLazyQuery} from '@apollo/client';
 import moment from 'moment';
 import 'moment/locale/fr';
-
-export const SEARCH_GROUP_FIXTURES = gql`
-  query getAllFixturesPredictions(
-    $start: String
-    $end: String
-    $groupId: String
-  ) {
-    fixtures(start: $start, end: $end, groupId: $groupId) {
-      startDate
-      id
-      status
-      matchDay
-      predictions {
-        attributes {
-          type
-        }
-        homeScore
-        awayScore
-        user {
-          id
-          displayName
-        }
-      }
-      prediction {
-        attributes {
-          type
-        }
-        homeScore
-        awayScore
-      }
-      homeScore
-      awayScore
-      awayTeam {
-        shortName
-        id
-        logo
-      }
-      homeTeam {
-        shortName
-        id
-        logo
-      }
-    }
-  }
-`;
-
-type Fixture = {
-  id: string;
-};
-
-type FixtureListProps = {
-  children: (fixture: Fixture) => ReactNode;
-  start: String | null;
-};
+import {groupByMatchDay} from '../../Shared/utils';
+import FixtureSectionHeader from '../../Fixture/components/FixtureSectionHeader';
+import FixtureListFooter from '../../Fixture/components/FixtureListFooter';
+import {SEARCH_GROUP_FIXTURES} from '../../Fixture/utils';
 
 moment.locale('fr');
 
-const GroupedFixtureList = ({start, groupId, children}: FixtureListProps) => {
-  const {loading, data, error, refetch} = useQuery(SEARCH_GROUP_FIXTURES, {
-    variables: {
-      start,
-      end: moment(start).add('1', 'week').format('YYYY-MM-DD'),
-      groupId,
-    },
-  });
+const keyExtractor = (fixture: Types) => fixture.id;
+
+type FixtureListProps = {
+  children: (fixture: Types) => ReactNode;
+  groupId: String | null;
+};
+
+const GroupedFixtureList = ({groupId, children}: FixtureListProps) => {
+  const [state, setState] = React.useState([]);
+  const [query, {loading, data, called, error}] = useLazyQuery(SEARCH_GROUP_FIXTURES);
   React.useEffect(() => {
     if (error != null) console.warn(error);
   }, [error]);
 
-  const fixtures = data?.fixtures ?? [];
+  React.useEffect(() => {
+    const fixtures = data?.fixtures ?? [];
+    setState((s) => {
+      const newState = [...s, ...fixtures];
+      newState.filter((item, index, a) => a.findIndex((b) => b.id === item.id));
+      return newState;
+    });
+  }, [data]);
 
-  const [refreshing, setRefreshing] = React.useState(false);
-  const onRefresh = React.useCallback(async () => {
-    setRefreshing(true);
-    try {
-      await refetch();
-    } catch {
-      console.warn('something went wrong while refetching fixtures');
-    }
-    setRefreshing(false);
-  }, [refetch]);
+  React.useEffect(() => {
+    query({
+      variables: {
+        groupId,
+        offset: 0,
+      },
+    });
+  }, []);
 
-  return loading ? (
-    <ActivityIndicator />
+  const handleEndReached = () => {
+    if (loading === false)
+      query({
+        variables: {
+          groupId,
+          offset: state.length,
+        },
+      });
+  };
+  return !called && loading ? (
+    <View style={tailwind('h-full items-center justify-center')}>
+      <ActivityIndicator />
+    </View>
   ) : (
-    <Day fixtures={fixtures} refreshing={refreshing} onRefresh={onRefresh}>
-      {children}
-    </Day>
-  );
-};
-
-const Day = ({fixtures, children, onRefresh, refreshing}) => {
-  const groupingBy = fixtures.reduce((groupedFixtures, fixture) => {
-    const day = fixture.startDate.substring(0, 10);
-    const group = groupedFixtures[day] ?? [];
-    return {...groupedFixtures, [day]: [...group, fixture]};
-  }, {});
-  return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }>
-      {Object.entries(groupingBy)
-        .sort(([a], [b]) => {
-          return (
-            moment(a, 'YYYY-MM-DD').format('YYYYMMDD') -
-            moment(b, 'YYYY-MM-DD').format('YYYYMMDD')
-          );
-        })
-        .map(([day, fixtures]) => (
-          <View key={day}>
-            <View style={tailwind('px-4 pt-8 pb-4')}>
-              <Text
-                style={tailwind('text-left uppercase font-bold text-gray-800')}>
-                {moment(day, 'YYYY-MM-DD').format('dddd DD MMMM')}
-              </Text>
-            </View>
-            <View>{fixtures.map(children)}</View>
-          </View>
-        ))}
-      {/* mt-16 is required to add some space between the keyboard and the last fixture view */}
-      <View style={tailwind('mt-16')} />
-    </ScrollView>
+    <SectionList
+      sections={groupByMatchDay(state)}
+      renderSectionHeader={FixtureSectionHeader}
+      renderItem={({item}) => children(item)}
+      keyExtractor={keyExtractor}
+      onEndReachedThreshold={0.75}
+      onEndReached={handleEndReached}
+      ListFooterComponent={FixtureListFooter}
+    />
   );
 };
 

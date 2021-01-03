@@ -13,7 +13,6 @@ const CREATE_GROUP = gql`
   mutation groupCreation($name: String!) {
     createGroup(name: $name) {
       id
-      duration
     }
   }
 `;
@@ -61,7 +60,7 @@ const AddGroupForm = ({}) => {
             try {
               await mutation({
                 variables: {
-                  name,
+                  name: state.name,
                 },
               });
               navigate('Home');

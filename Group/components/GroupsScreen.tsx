@@ -1,5 +1,8 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackNavigationOptions,
+} from '@react-navigation/stack';
 import GroupsView from '../containers/GroupsView';
 import GroupView from './GroupView';
 import HeaderLeft from '../../Shared/components/HeaderLeft';
@@ -7,9 +10,17 @@ import AddGroupForm from '../containers/AddGroupForm';
 import JoinGroupForm from '../containers/JoinGroupForm';
 import tailwind, {getColor} from 'tailwind-rn';
 import {Text} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {Group} from '../types';
 
-const Stack = createStackNavigator();
+export type RootStackParamList = {
+  Home: undefined;
+  Add: {userId: string};
+  Join: {sort: 'latest' | 'top'} | undefined;
+  Group: {
+    group: Group;
+  };
+};
+const Stack = createStackNavigator<RootStackParamList>();
 
 const stackOptions = {
   headerStyle: {
@@ -19,6 +30,14 @@ const stackOptions = {
     borderWidth: 0,
   },
 };
+
+const groupOptions = ({route}: any): StackNavigationOptions => ({
+  ...stackOptions,
+  headerTitle: () => (
+    <Text style={tailwind('font-bold')}>{route.params.group.name}</Text>
+  ),
+  headerLeft: HeaderLeft,
+});
 
 const GroupsScreen = ({}) => (
   <Stack.Navigator>
@@ -33,17 +52,7 @@ const GroupsScreen = ({}) => (
       options={{...stackOptions, headerLeft: HeaderLeft}}
       component={JoinGroupForm}
     />
-    <Stack.Screen
-      name="Group"
-      options={({route}) => ({
-        ...stackOptions,
-        headerTitle: () => (
-          <Text style={tailwind('font-bold')}>{route.params.group.name}</Text>
-        ),
-        headerLeft: HeaderLeft,
-      })}
-      component={GroupView}
-    />
+    <Stack.Screen name="Group" options={groupOptions} component={GroupView} />
   </Stack.Navigator>
 );
 
