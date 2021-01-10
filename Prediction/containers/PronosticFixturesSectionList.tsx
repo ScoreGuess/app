@@ -10,7 +10,13 @@ import FixtureSectionHeader from '../../Fixture/components/FixtureSectionHeader'
 
 moment.locale('fr');
 
-const GroupedFixtureList = ({children}: FixtureListProps) => {
+interface PronosticFixturesSectionListProps {
+  children: (fixture: Fixture) => ReactNode;
+}
+
+const PronosticFixturesSectionList = ({
+  children,
+}: PronosticFixturesSectionListProps) => {
   const {loading, data, refetch: _refetch} = useQuery(SEARCH_PLANNED_FIXTURES);
   // 👇  https://github.com/apollographql/apollo-client/issues/6816
   const refetch = useCallback(() => {
@@ -51,37 +57,13 @@ const GroupedFixtureList = ({children}: FixtureListProps) => {
     }
     setRefreshing(false);
   }, [refetch]);
-
-  return loading ? (
-    <ActivityIndicator />
-  ) : (
-    <FixtureList
-      fixtures={fixtures}
-      refreshing={refreshing}
-      onRefresh={onRefresh}>
-      {children}
-    </FixtureList>
-  );
-};
-
-interface FixtureListProps {
-  fixtures: Fixture[];
-  children: (fixture: Fixture) => ReactNode;
-  onRefresh: () => void;
-  refreshing: boolean;
-}
-
-const FixtureList = ({
-  fixtures,
-  children,
-  onRefresh,
-  refreshing,
-}: FixtureListProps) => {
   const entries = groupByMatchDay(fixtures);
 
   const renderItem = ({item}: {item: Fixture}) => children(item);
 
-  return (
+  return loading ? (
+    <ActivityIndicator />
+  ) : (
     <SectionList
       onRefresh={onRefresh}
       refreshing={refreshing}
@@ -92,4 +74,4 @@ const FixtureList = ({
   );
 };
 
-export default GroupedFixtureList;
+export default PronosticFixturesSectionList;

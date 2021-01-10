@@ -37,7 +37,7 @@ import ProfileScreen from './Profile/components/ProfileScreen';
 import TabBar from './Shared/components/TabBar';
 import GroupsScreen from './Group/components/GroupsScreen';
 import PronosticScreen from './Prediction/components/PronosticScreen';
-import ResultsScreen from "./Results/containers/ResultsScreen";
+import ResultsScreen from './Results/containers/ResultsScreen';
 
 declare const global: {HermesInternal: null | {}};
 

@@ -8,21 +8,18 @@ import {
   View,
 } from 'react-native';
 import Screen from '../../Shared/components/Screen';
-import PlannedFixtureList from '../containers/PlannedFixtureList';
+import PronosticFixturesSectionList from '../containers/PronosticFixturesSectionList';
 import FixtureView from '../../Home/components/FixtureView';
+import ScreenHeader from '../../Shared/components/ScreenHeader';
 
 const PronosticScreen = () => (
   <Screen>
     <View style={tailwind(' h-full justify-center w-full')}>
-      <View style={tailwind('mt-4 mb-2 px-4')}>
-        <Text style={tailwind('text-xl font-bold text-red-600')}>
-          Pronostics
-        </Text>
-      </View>
+      <ScreenHeader>Pronostics</ScreenHeader>
       <View style={tailwind('flex-1')}>
-        <PlannedFixtureList>
+        <PronosticFixturesSectionList>
           {(fixture) => <FixtureView key={fixture.id} fixture={fixture} />}
-        </PlannedFixtureList>
+        </PronosticFixturesSectionList>
       </View>
     </View>
   </Screen>
