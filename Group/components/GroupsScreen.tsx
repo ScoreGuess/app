@@ -41,7 +41,11 @@ const groupOptions = ({route}: any): StackNavigationOptions => ({
 
 const GroupsScreen = ({}) => (
   <Stack.Navigator>
-    <Stack.Screen options={stackOptions} name={'Home'} component={GroupsView} />
+    <Stack.Screen
+      options={{...stackOptions, headerShown: false}}
+      name={'Home'}
+      component={GroupsView}
+    />
     <Stack.Screen
       name={'Add'}
       options={{...stackOptions, headerLeft: HeaderLeft}}

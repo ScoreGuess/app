@@ -40,15 +40,15 @@ export const SEARCH_GROUPS = gql`
 const GroupsView = () => {
   const {loading, data} = useQuery(SEARCH_GROUPS);
   const {navigate} = useNavigation();
+
   if (loading) {
     return <ActivityIndicator />;
   }
   const groups = data?.groups ?? [{participants: []}];
-
   return (
     <View style={tailwind('bg-gray-100 h-full')}>
       <ScrollView>
-        <View style={tailwind('px-2  pb-8')}>
+        <View style={tailwind('px-2  pb-8 mt-4')}>
           <Card style={tailwind('bg-white')}>
             <Card.Header
               title="Groupes"
