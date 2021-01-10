@@ -18,7 +18,6 @@ const GroupedFixtureList = ({children}: FixtureListProps) => {
   }, [_refetch]);
 
   const fixtures = data?.fixtures ?? [];
-  console.log(fixtures)
   const [refreshing, setRefreshing] = React.useState(false);
 
   const handleChange = useCallback(

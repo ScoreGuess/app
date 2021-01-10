@@ -13,21 +13,18 @@ import FixtureView from '../../Home/components/FixtureView';
 
 const PronosticScreen = () => (
   <Screen>
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <View style={tailwind(' h-full justify-center w-full')}>
-        <View style={tailwind('mt-4 mb-2 px-4')}>
-          <Text style={tailwind('text-xl font-bold text-red-600')}>
-            Pronostics
-          </Text>
-        </View>
-        <View style={tailwind('flex-1')}>
-          <PlannedFixtureList>
-            {(fixture) => <FixtureView key={fixture.id} fixture={fixture} />}
-          </PlannedFixtureList>
-        </View>
+    <View style={tailwind(' h-full justify-center w-full')}>
+      <View style={tailwind('mt-4 mb-2 px-4')}>
+        <Text style={tailwind('text-xl font-bold text-red-600')}>
+          Pronostics
+        </Text>
       </View>
-    </KeyboardAvoidingView>
+      <View style={tailwind('flex-1')}>
+        <PlannedFixtureList>
+          {(fixture) => <FixtureView key={fixture.id} fixture={fixture} />}
+        </PlannedFixtureList>
+      </View>
+    </View>
   </Screen>
 );
 

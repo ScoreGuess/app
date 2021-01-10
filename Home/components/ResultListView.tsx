@@ -3,7 +3,11 @@ import tailwind from 'tailwind-rn';
 import AttributeView from './AttributeView';
 import React from 'react';
 
-const ResultListView = ({style, prediction}) => {
+interface ResultListViewProps {
+  style?: string;
+  prediction: any;
+}
+const ResultListView = ({style, prediction}: ResultListViewProps) => {
   const {attributes} = prediction;
   const [first, ...rest] = attributes;
   if (first == null) return null;
