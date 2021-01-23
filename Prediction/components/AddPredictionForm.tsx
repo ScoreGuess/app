@@ -1,13 +1,10 @@
 import React, {useReducer} from 'react';
 import {gql, useMutation} from '@apollo/client';
 import useUpdateEffect from 'react-use/lib/useUpdateEffect';
-import {View, Text, Image} from 'react-native';
+import {Image, Text, View} from 'react-native';
 import tailwind from 'tailwind-rn';
-import ScoreInput from './ScoreInput';
-import auth from '@react-native-firebase/auth';
 import {SEARCH_FIXTURES} from '../../Home/containers/FixtureList';
 import BetterScoreInput from './BetterScoreInput';
-import moment from 'moment';
 
 const reducer = (state, action) => {
   const {type, payload} = action;

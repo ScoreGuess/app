@@ -18,6 +18,12 @@ const Header = ({icon, color, title, desc}) => (
   </View>
 );
 
+const Footer = ({children}) => (
+  <View style={tailwind('mb-2 pt-2 border-t-2 border-gray-300')}>
+    {children}
+  </View>
+);
+
 const Card = ({children, style}) => {
   return (
     <View
@@ -39,5 +45,6 @@ const Card = ({children, style}) => {
 };
 
 Card.Header = Header;
+Card.Footer = Footer;
 
 export default Card;

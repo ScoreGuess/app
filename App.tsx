@@ -8,26 +8,25 @@
  * @format
  */
 
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import 'react-native-gesture-handler';
 import tailwind, {getColor} from 'tailwind-rn';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
   faFutbol,
   faTable,
-  faUserFriends,
   faUserCircle,
+  faUserFriends,
 } from '@fortawesome/free-solid-svg-icons';
-
+import messaging from '@react-native-firebase/messaging';
 import {SafeAreaView, StatusBar, Text} from 'react-native';
 import {
   ApolloClient,
-  InMemoryCache,
-  createHttpLink,
   ApolloProvider,
+  createHttpLink,
+  InMemoryCache,
 } from '@apollo/client';
 import {setContext} from '@apollo/client/link/context';
-
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
@@ -38,6 +37,8 @@ import TabBar from './Shared/components/TabBar';
 import GroupsScreen from './Group/components/GroupsScreen';
 import PronosticScreen from './Prediction/components/PronosticScreen';
 import ResultsScreen from './Results/containers/ResultsScreen';
+import {requestPermissions} from './Profile/utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 declare const global: {HermesInternal: null | {}};
 
@@ -65,13 +66,23 @@ const App = () => {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
   const [client, setClient] = useState(null);
+
+  useEffect(() => {
+    const run = async () => {
+      const status = await requestPermissions();
+      if (status === messaging.AuthorizationStatus.DENIED) {
+        AsyncStorage.setItem('reminders', String(false));
+      }
+    };
+    run();
+  }, []);
+
   // Handle user state changes
   function onAuthStateChanged(user) {
     setUser(user);
     const authLink = setContext(async (_, {headers}) => {
       // get the authentication token from local storage if it exists
-      const idToken = await auth().currentUser.getIdToken(true);
-      console.log(idToken);
+      const idToken = await auth().currentUser.getIdToken();
       // return the headers to the context so httpLink can read them
       return {
         headers: {
@@ -91,11 +102,12 @@ const App = () => {
   }
 
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
+    return auth().onAuthStateChanged(onAuthStateChanged);
   }, []);
 
-  if (initializing) return null;
+  if (initializing) {
+    return null;
+  }
   if (!user) {
     return (
       <SafeAreaView>
@@ -115,9 +127,8 @@ const App = () => {
           <Tab.Navigator
             tabBar={(props) => <TabBar {...props} />}
             screenOptions={({route}) => ({
-              tabBarIcon: ({focused, color, size}) => {
+              tabBarIcon: ({color}) => {
                 let icon;
-
                 if (route.name === 'Pronos') {
                   icon = faFutbol;
                 } else if (route.name === 'Résultats') {
