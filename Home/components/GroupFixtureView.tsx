@@ -22,8 +22,8 @@ const GroupFixtureView = ({fixture}: GroupFixtureViewProps) => (
       <TeamView team={fixture.awayTeam} />
     </View>
     {fixture.status === 'FINISHED' && fixture.prediction && (
-      <View style={tailwind(' border-t-2 border-gray-200 px-2 mb-2')}>
-        <View style={tailwind('flex-row justify-between py-4 mt-4')}>
+      <View style={tailwind(' border-t-2 border-gray-200  mb-2')}>
+        <View style={tailwind('flex-row justify-between px-2 py-4 mt-4')}>
           <Text style={tailwind('font-bold flex-1')}>Pronostic</Text>
           <View style={tailwind('flex-row')}>
             <Text style={tailwind('font-bold')}>
@@ -41,7 +41,7 @@ const GroupFixtureView = ({fixture}: GroupFixtureViewProps) => (
         />
       </View>
     )}
-    {fixture.status === 'FINISHED' && <PronosticsAccordion  fixture={fixture} />}
+    {fixture.status === 'FINISHED' && <PronosticsAccordion fixture={fixture} />}
   </Card>
 );
 

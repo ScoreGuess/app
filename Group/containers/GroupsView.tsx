@@ -13,6 +13,7 @@ import Card from '../../Shared/components/Card';
 import Button from '../../Shared/components/Button';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faChevronRight, faUserFriends} from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment';
 
 export const SEARCH_GROUPS = gql`
   query groupSearch {
@@ -20,19 +21,7 @@ export const SEARCH_GROUPS = gql`
       id
       name
       createdAt
-      participants {
-        id
-        email
-        displayName
-        predictions {
-          fixture {
-            startDate
-          }
-          attributes {
-            type
-          }
-        }
-      }
+      size
     }
   }
 `;
@@ -40,10 +29,10 @@ export const SEARCH_GROUPS = gql`
 const GroupsView = () => {
   const {loading, data} = useQuery(SEARCH_GROUPS);
   const {navigate} = useNavigation();
-
   if (loading) {
     return <ActivityIndicator />;
   }
+
   const groups = data?.groups ?? [{participants: []}];
   return (
     <View style={tailwind('bg-gray-100 h-full')}>
@@ -67,12 +56,20 @@ const GroupsView = () => {
                     ' flex-row justify-between items-center p-4 border-b-2 border-gray-300',
                   )}>
                   <View style={tailwind('flex-1')}>
-                    <Text style={tailwind('mb-1')}>{group.name}</Text>
-                    <Text style={tailwind('text-gray-600')}>
-                      {group.participants.length <= 1
-                        ? 'Invite tes potes'
-                        : `${group.participants.length} participants`}
-                    </Text>
+                    <View>
+                      <Text style={tailwind('mb-1 font-bold')}>
+                        {group.name}
+                      </Text>
+                    </View>
+                    <View style={tailwind('flex-row')}>
+                      <Text style={tailwind('mb-1 mr-1 text-gray-600')}>
+                        {group.size} participants
+                      </Text>
+                      <Text style={tailwind('mr-1')}>&middot;</Text>
+                      <Text style={tailwind('mb-1 text-gray-600')}>
+                        {moment(group.createdAt, 'YYYY-MM-DD').format('LL')}
+                      </Text>
+                    </View>
                   </View>
                   <Pressable style={tailwind('flex-initial')}>
                     <FontAwesomeIcon
