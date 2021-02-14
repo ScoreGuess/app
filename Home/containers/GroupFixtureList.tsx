@@ -1,5 +1,5 @@
 import React, {ReactNode} from 'react';
-import {ActivityIndicator, SectionList, View} from 'react-native';
+import {ActivityIndicator, Animated, View} from 'react-native';
 import tailwind from 'tailwind-rn';
 import {useLazyQuery} from '@apollo/client';
 import moment from 'moment';
@@ -8,6 +8,7 @@ import {groupByMatchDay} from '../../Shared/utils';
 import FixtureSectionHeader from '../../Fixture/components/FixtureSectionHeader';
 import FixtureListFooter from '../../Fixture/components/FixtureListFooter';
 import {SEARCH_GROUP_FIXTURES} from '../../Fixture/utils';
+import {GROUP_NAVIGATION_HEADER_HEIGHT} from '../../Group/components/GroupNavigation';
 
 moment.locale('fr');
 
@@ -18,9 +19,16 @@ type FixtureListProps = {
   groupId: String | null;
 };
 
-const GroupedFixtureList = ({groupId, children}: FixtureListProps) => {
+const GroupedFixtureList = ({
+  groupId,
+  children,
+  onScroll,
+  y,
+}: FixtureListProps) => {
   const [state, setState] = React.useState([]);
-  const [query, {loading, data, called, error}] = useLazyQuery(SEARCH_GROUP_FIXTURES);
+  const [query, {loading, data, called, error}] = useLazyQuery(
+    SEARCH_GROUP_FIXTURES,
+  );
   React.useEffect(() => {
     if (error != null) console.warn(error);
   }, [error]);
@@ -33,7 +41,11 @@ const GroupedFixtureList = ({groupId, children}: FixtureListProps) => {
       return newState;
     });
   }, [data]);
-
+  const translateY = y.interpolate({
+    inputRange: [0, GROUP_NAVIGATION_HEADER_HEIGHT],
+    outputRange: [GROUP_NAVIGATION_HEADER_HEIGHT, 0],
+    extrapolateLeft: 'clamp',
+  });
   React.useEffect(() => {
     query({
       variables: {
@@ -57,7 +69,17 @@ const GroupedFixtureList = ({groupId, children}: FixtureListProps) => {
       <ActivityIndicator />
     </View>
   ) : (
-    <SectionList
+    <Animated.SectionList
+      style={{
+        transform: [
+          {
+            translateY,
+          },
+        ],
+      }}
+      onScroll={onScroll}
+      scrollEventThrottle={16}
+      bounces={false}
       sections={groupByMatchDay(state)}
       renderSectionHeader={FixtureSectionHeader}
       renderItem={({item}) => children(item)}

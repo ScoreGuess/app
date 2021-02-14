@@ -1,7 +1,9 @@
-import {View, Text, ActivityIndicator} from 'react-native';
+import {View, ActivityIndicator, Animated} from 'react-native';
 import tailwind from 'tailwind-rn';
 import React, {useState} from 'react';
-import GroupNavigation from './GroupNavigation';
+import GroupNavigation, {
+  GROUP_NAVIGATION_HEADER_HEIGHT,
+} from './GroupNavigation';
 import LeaderBoardView from './LeaderBoardView';
 import GroupResultsView from './GroupResultsView';
 import {RouteProp} from '@react-navigation/native';
@@ -39,7 +41,18 @@ const READ_GROUP = gql`
 
 const GroupView = ({route}: GroupViewProps) => {
   const {group} = route.params;
-  const {data, error, loading} = useQuery(READ_GROUP, {
+  const scrollY = new Animated.Value(0);
+  const diffClamp = Animated.diffClamp(
+    scrollY,
+    0,
+    GROUP_NAVIGATION_HEADER_HEIGHT,
+  );
+  const translateY = diffClamp.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, -1],
+  });
+
+  const {data, loading} = useQuery(READ_GROUP, {
     variables: {
       groupId: group.id,
     },
@@ -49,14 +62,41 @@ const GroupView = ({route}: GroupViewProps) => {
   const handleChange = (i: number) => {
     setIndex(i);
   };
+
+  const handleScroll = (e) => {
+    scrollY.setValue(e.nativeEvent.contentOffset.y);
+  };
   if (loading) {
     return <ActivityIndicator />;
   }
   return (
     <View style={tailwind('bg-gray-100 h-full')}>
-      <GroupNavigation onChange={handleChange} />
-      {index === 0 && <LeaderBoardView group={data.group} />}
-      {index === 1 && <GroupResultsView group={data.group} />}
+      <Animated.View
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          elevation: 4,
+          zIndex: 100,
+          transform: [
+            {
+              translateY,
+            },
+          ],
+        }}>
+        <GroupNavigation onChange={handleChange} />
+      </Animated.View>
+      {index === 0 && (
+        <LeaderBoardView group={data.group} onScroll={handleScroll} />
+      )}
+      {index === 1 && (
+        <GroupResultsView
+          group={data.group}
+          onScroll={handleScroll}
+          y={diffClamp}
+        />
+      )}
     </View>
   );
 };

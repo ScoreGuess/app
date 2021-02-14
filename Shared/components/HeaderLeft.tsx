@@ -6,8 +6,8 @@ import React from 'react';
 import {StackHeaderLeftButtonProps} from '@react-navigation/stack';
 
 const HeaderLeft = ({onPress}: StackHeaderLeftButtonProps) => (
-  <View style={tailwind('flex-row p-4')}>
-    <View style={tailwind('flex-initial mr-2')}>
+  <View style={tailwind('flex-row p-4 w-24')}>
+    <View style={tailwind('flex-initial bg-green-200 mr-2')}>
       <FontAwesomeIcon
         icon={faChevronLeft}
         color={getColor('red-600')}

@@ -17,12 +17,14 @@ interface PronosticFixturesSectionListProps {
 const PronosticFixturesSectionList = ({
   children,
 }: PronosticFixturesSectionListProps) => {
-  const {loading, data, refetch: _refetch} = useQuery(SEARCH_PLANNED_FIXTURES);
+  const {loading, data, error, refetch: _refetch} = useQuery(
+    SEARCH_PLANNED_FIXTURES,
+  );
   // 👇  https://github.com/apollographql/apollo-client/issues/6816
   const refetch = useCallback(() => {
     setTimeout(() => _refetch(), 0);
   }, [_refetch]);
-
+  console.log(error);
   const fixtures = data?.fixtures ?? [];
   const [refreshing, setRefreshing] = React.useState(false);
 

@@ -10,7 +10,7 @@ interface FixtureSectionHeaderProps {
 const FixtureSectionHeader = ({
   section: {title},
 }: FixtureSectionHeaderProps): React.ReactElement<any> => (
-  <View style={tailwind('bg-gray-100 p-4 border-b-2 mb-2 border-gray-200')}>
+  <View style={tailwind('bg-gray-200 p-4 border-b-2 mb-2 border-gray-200')}>
     <Text style={tailwind('font-bold')}>{title}</Text>
   </View>
 );

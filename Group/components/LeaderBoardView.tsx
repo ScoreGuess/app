@@ -7,7 +7,7 @@ import Button from '../../Shared/components/Button';
 import {computePoints} from '../../Results/utils';
 import {encode as base64Encoded} from 'base-64';
 
-const LeaderBoardView = ({group}) => {
+const LeaderBoardView = ({group, onScroll}) => {
   const participants = group.participants
     .map((participant) => ({
       ...participant,
@@ -23,8 +23,8 @@ const LeaderBoardView = ({group}) => {
   );
   const link = `https://scoreguess-17a79.web.app/join/${token}`;
   return (
-    <ScrollView>
-      <View style={tailwind('p-2 pb-8')}>
+    <ScrollView onScroll={onScroll} scrollEventThrottle={16} bounces={false}>
+      <View style={tailwind('mt-16 p-2 pb-8')}>
         {participants.length <= 1 ? (
           <AloneDisclaimer group={group} />
         ) : (
