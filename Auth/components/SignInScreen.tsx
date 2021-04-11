@@ -1,12 +1,11 @@
 import React, {useReducer} from 'react';
 import Screen from '../../Shared/components/Screen';
+import {Button, Card, HelperText, TextInput, Title} from 'react-native-paper';
 
-import {View, Text, TextInput, ActivityIndicator} from 'react-native';
+import {View, ActivityIndicator} from 'react-native';
 import auth from '@react-native-firebase/auth';
 
 import tailwind from 'tailwind-rn';
-import Button from '../../Shared/components/Button';
-import Card from '../../Shared/components/Card';
 
 type SignInState = {
   method: 'signIn' | 'logIn';
@@ -78,10 +77,14 @@ const SignInScreen = () => {
   return (
     <Screen>
       <Card style={tailwind('m-2 mt-8 p-4 bg-white')}>
-        <View style={tailwind('w-full mt-4')}>
-          <Text style={tailwind('mb-2')}>Adresse email</Text>
+        <Title>ScoreGuess</Title>
+        <View style={tailwind(' mt-4')}>
           <TextInput
+            textAlign="left"
+            mode="outlined"
+            label="Adresse email"
             keyboardType="email-address"
+            error={state.error === 'auth/user-not-found'}
             onChangeText={(text) =>
               dispatch({
                 type: 'changed',
@@ -92,12 +95,14 @@ const SignInScreen = () => {
               })
             }
             value={state.email}
-            style={tailwind('bg-gray-200 w-full p-4 rounded-md')}
           />
         </View>
-        <View style={tailwind('w-full mt-4')}>
-          <Text style={tailwind('mb-2')}>Mot de passe</Text>
+        <View style={tailwind('mt-4')}>
           <TextInput
+            mode="outlined"
+            textAlign="left"
+            error={state.error === 'auth/wrong-password'}
+            label="Mot de passe"
             keyboardType="default"
             secureTextEntry
             onChangeText={(text) =>
@@ -110,24 +115,23 @@ const SignInScreen = () => {
               })
             }
             value={state.password}
-            style={tailwind('bg-gray-200 w-full p-4 rounded-md')}
           />
         </View>
-        <View>
-          <Text style={tailwind('py-4 text-red-600')}>&nbsp;{state.error}</Text>
-        </View>
+        <HelperText
+          dataDetectorType="none"
+          visible={state.error != null}
+          type="error">
+          {state.error}
+        </HelperText>
         {state.loading ? (
           <ActivityIndicator />
         ) : (
-          <Button onPress={handleSubmit}>
+          <Button mode="contained" onPress={handleSubmit}>
             {state.method === 'signIn' ? "S'inscrire" : 'Se connecter'}
           </Button>
         )}
       </Card>
-      <Button
-        variant="tertiary"
-        style={tailwind('mt-4')}
-        onPress={toggleMethod}>
+      <Button style={tailwind('mt-4')} onPress={toggleMethod}>
         {state.method === 'signIn' ? 'Déjà un compte ?' : 'Créer un compte'}
       </Button>
     </Screen>
