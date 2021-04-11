@@ -43,7 +43,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 declare const global: {HermesInternal: null | {}};
 
 const httpLink = createHttpLink({
-  // uri: 'http://localhost:5001/scoreguess-17a79/us-central1/graphql',
+  //uri: 'http://localhost:5001/scoreguess-17a79/us-central1/graphql',
   uri: 'https://us-central1-scoreguess-17a79.cloudfunctions.net/graphql',
 });
 

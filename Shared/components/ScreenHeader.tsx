@@ -10,7 +10,9 @@ interface ScreenHeaderProps {
 
 const ScreenHeader = ({children}: ScreenHeaderProps) => (
   <View
-    style={tailwind('mt-4 mb-2 px-4 flex-row justify-between items-center')}>
+    style={tailwind(
+      'mt-4 mb-2 px-4 flex-row justify-between w-full items-center',
+    )}>
     <Text style={tailwind('text-xl font-bold text-red-600')}>{children}</Text>
   </View>
 );
