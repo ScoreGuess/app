@@ -1,6 +1,6 @@
 import {Text, View} from 'react-native';
 import tailwind from 'tailwind-rn';
-import Card from '../../Shared/components/Card';
+import { Card } from 'react-native-paper'
 import React from 'react';
 
 const RankBubble = ({rank}) => {
@@ -29,12 +29,9 @@ const RankBubble = ({rank}) => {
 };
 
 const ParticipantCard = ({rank, participant, current}) => (
-  <Card
-    style={tailwind(
-      ` bg-white p-4 flex-row  mb-2 border-2 flex-row items-center ${
-        current ? 'border-red-500' : 'border-transparent'
-      }`,
-    )}>
+  <Card>
+      <Card.Content>
+
     <View style={tailwind('flex-1 flex-row items-center')}>
       <RankBubble rank={rank} />
       <Text style={tailwind(`${current ? 'font-bold' : ''}`)}>
@@ -44,6 +41,8 @@ const ParticipantCard = ({rank, participant, current}) => (
     <View style={tailwind('flex-initial ')}>
       <Text style={tailwind('font-bold')}>{participant.points}</Text>
     </View>
+      </Card.Content>
+
   </Card>
 );
 

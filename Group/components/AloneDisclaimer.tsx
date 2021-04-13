@@ -1,18 +1,21 @@
-import Card from '../../Shared/components/Card';
 import tailwind from 'tailwind-rn';
-import {Text} from 'react-native';
-import React from 'react';
+import {Card, Paragraph, Text, Title} from 'react-native-paper'
+ import React from 'react';
 
 const AloneDisclaimer = ({group}) => {
   return (
-    <Card style={tailwind('py-8 px-4')}>
-      <Text style={tailwind('text-lg font-bold')}>
+    <Card >
+        <Card.Content>
+
+      <Title>
         😅 Tu te sens un peu seul ?
-      </Text>
-      <Text style={tailwind('mt-2 text-gray-600 leading-6')}>
+      </Title>
+      <Paragraph>
         Invite tes potes en leur envoyant le lien suivant. ils rejoindront
-        directement <Text style={tailwind('text-red-600')}>{group.name}</Text>
-      </Text>
+        directement {group.name}
+      </Paragraph>
+        </Card.Content>
+
     </Card>
   );
 };

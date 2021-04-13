@@ -28,12 +28,12 @@ import {
 } from '@apollo/client';
 import {setContext} from '@apollo/client/link/context';
 import {NavigationContainer} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import {Colors, DefaultTheme, Provider as PaperProvider} from 'react-native-paper'
 import auth from '@react-native-firebase/auth';
 
 import SignInScreen from './Auth/components/SignInScreen';
 import ProfileScreen from './Profile/components/ProfileScreen';
-import TabBar from './Shared/components/TabBar';
 import GroupsScreen from './Group/components/GroupsScreen';
 import PronosticScreen from './Prediction/components/PronosticScreen';
 import ResultsScreen from './Results/containers/ResultsScreen';
@@ -47,7 +47,7 @@ const httpLink = createHttpLink({
   uri: 'https://us-central1-scoreguess-17a79.cloudfunctions.net/graphql',
 });
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 const linking = {
   prefixes: ['scoreguess://'],
   config: {
@@ -60,7 +60,14 @@ const linking = {
     },
   },
 };
-
+export const theme={
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: Colors.red500,
+    accent: '#f1c40f',
+  },
+}
 const App = () => {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
@@ -119,41 +126,42 @@ const App = () => {
   //https://medium.com/reactbrasil/react-native-set-different-colors-on-top-and-bottom-in-safeareaview-component-f008823483f3
   return (
     <ApolloProvider client={client}>
-      <SafeAreaView style={{flex: 0, ...tailwind('bg-gray-100')}} />
-      <SafeAreaView style={tailwind('flex-1 bg-white')}>
-        <NavigationContainer
-          linking={linking}
-          fallback={<Text>chargement</Text>}>
-          <Tab.Navigator
-            tabBar={(props) => <TabBar {...props} />}
-            screenOptions={({route}) => ({
-              tabBarIcon: ({color}) => {
-                let icon;
-                if (route.name === 'Pronos') {
-                  icon = faFutbol;
-                } else if (route.name === 'Résultats') {
-                  icon = faTable;
-                } else if (route.name === 'Groupes') {
-                  icon = faUserFriends;
-                } else {
-                  icon = faUserCircle;
-                }
+      <PaperProvider theme={theme}>
 
-                // You can return any component that you like here!
-                return <FontAwesomeIcon icon={icon} color={color} size={20} />;
-              },
-            })}>
-            <Tab.Screen name="Pronos" component={PronosticScreen} />
-            <Tab.Screen name="Groupes" component={GroupsScreen} />
-            <Tab.Screen name="Résultats" component={ResultsScreen} />
-            <Tab.Screen name="Profil" component={ProfileScreen} />
-          </Tab.Navigator>
-        </NavigationContainer>
-      </SafeAreaView>
+
+      <SafeAreaView style={{flex: 0, ...tailwind('bg-gray-100')}} />
+      <NavigationContainer linking={linking} fallback={<Text>chargement</Text>}>
+        <Tab.Navigator
+          barStyle={{backgroundColor: '#ffffff'}}
+          activeColor={Colors.red500}
+          screenOptions={({route}) => ({
+            tabBarIcon: ({color}) => {
+              let icon;
+              if (route.name === 'Pronos') {
+                icon = faFutbol;
+              } else if (route.name === 'Résultats') {
+                icon = faTable;
+              } else if (route.name === 'Groupes') {
+                icon = faUserFriends;
+              } else {
+                icon = faUserCircle;
+              }
+
+              // You can return any component that you like here!
+              return <FontAwesomeIcon icon={icon} color={color} size={20} />;
+            },
+          })}>
+          <Tab.Screen name="Pronos" component={PronosticScreen} />
+          <Tab.Screen name="Groupes" component={GroupsScreen} />
+          <Tab.Screen name="Résultats" component={ResultsScreen} />
+          <Tab.Screen name="Profil" component={ProfileScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
       <StatusBar
         barStyle="dark-content"
         backgroundColor={getColor('gray-100')}
       />
+      </PaperProvider>
     </ApolloProvider>
   );
 };

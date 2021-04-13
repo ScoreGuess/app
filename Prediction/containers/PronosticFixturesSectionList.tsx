@@ -68,6 +68,7 @@ const PronosticFixturesSectionList = ({
   ) : (
     <SectionList
       onRefresh={onRefresh}
+      stickySectionHeadersEnabled={true}
       refreshing={refreshing}
       renderSectionHeader={FixtureSectionHeader}
       renderItem={renderItem}

@@ -4,6 +4,7 @@ import React, {useState} from 'react';
 import GroupNavigation, {
   GROUP_NAVIGATION_HEADER_HEIGHT,
 } from './GroupNavigation';
+import {Divider} from "react-native-paper";
 import LeaderBoardView from './LeaderBoardView';
 import GroupResultsView from './GroupResultsView';
 import {RouteProp} from '@react-navigation/native';
@@ -86,6 +87,7 @@ const GroupView = ({route}: GroupViewProps) => {
           ],
         }}>
         <GroupNavigation onChange={handleChange} />
+        <Divider/>
       </Animated.View>
       {index === 0 && (
         <LeaderBoardView group={data.group} onScroll={handleScroll} />

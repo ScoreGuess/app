@@ -1,7 +1,6 @@
-import tailwind from 'tailwind-rn';
 import AddPredictionForm from '../../Prediction/components/AddPredictionForm';
 import React from 'react';
-import Card from '../../Shared/components/Card';
+import {Card} from 'react-native-paper';
 import {Fixture} from '../../Fixture/types';
 import InProgressFixtureView from '../../Fixture/components/InProgressFixtureView';
 import FinishedFixtureView from '../../Fixture/components/FinishedFixtureView';
@@ -11,7 +10,7 @@ interface FixtureViewProps {
 }
 
 const FixtureView = ({fixture}: FixtureViewProps) => (
-  <Card style={tailwind('bg-white m-2 pt-4')}>
+  <Card>
     {fixture.status === 'PLANNED' && <AddPredictionForm fixture={fixture} />}
     {fixture.status === 'IN_PROGRESS' && (
       <InProgressFixtureView fixture={fixture} />
