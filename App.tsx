@@ -29,7 +29,11 @@ import {
 import {setContext} from '@apollo/client/link/context';
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import {Colors, DefaultTheme, Provider as PaperProvider} from 'react-native-paper'
+import {
+  Colors,
+  DefaultTheme,
+  Provider as PaperProvider,
+} from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 
 import SignInScreen from './Auth/components/SignInScreen';
@@ -60,14 +64,14 @@ const linking = {
     },
   },
 };
-export const theme={
+export const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
     primary: Colors.red500,
     accent: '#f1c40f',
   },
-}
+};
 const App = () => {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
@@ -127,40 +131,40 @@ const App = () => {
   return (
     <ApolloProvider client={client}>
       <PaperProvider theme={theme}>
+        <SafeAreaView style={{flex: 0, ...tailwind('bg-white')}} />
+        <NavigationContainer
+          linking={linking}
+          fallback={<Text>chargement</Text>}>
+          <Tab.Navigator
+            barStyle={{backgroundColor: '#ffffff'}}
+            activeColor={Colors.red500}
+            screenOptions={({route}) => ({
+              tabBarIcon: ({color}) => {
+                let icon;
+                if (route.name === 'Pronos') {
+                  icon = faFutbol;
+                } else if (route.name === 'Résultats') {
+                  icon = faTable;
+                } else if (route.name === 'Groupes') {
+                  icon = faUserFriends;
+                } else {
+                  icon = faUserCircle;
+                }
 
-
-      <SafeAreaView style={{flex: 0, ...tailwind('bg-gray-100')}} />
-      <NavigationContainer linking={linking} fallback={<Text>chargement</Text>}>
-        <Tab.Navigator
-          barStyle={{backgroundColor: '#ffffff'}}
-          activeColor={Colors.red500}
-          screenOptions={({route}) => ({
-            tabBarIcon: ({color}) => {
-              let icon;
-              if (route.name === 'Pronos') {
-                icon = faFutbol;
-              } else if (route.name === 'Résultats') {
-                icon = faTable;
-              } else if (route.name === 'Groupes') {
-                icon = faUserFriends;
-              } else {
-                icon = faUserCircle;
-              }
-
-              // You can return any component that you like here!
-              return <FontAwesomeIcon icon={icon} color={color} size={20} />;
-            },
-          })}>
-          <Tab.Screen name="Pronos" component={PronosticScreen} />
-          <Tab.Screen name="Groupes" component={GroupsScreen} />
-          <Tab.Screen name="Résultats" component={ResultsScreen} />
-          <Tab.Screen name="Profil" component={ProfileScreen} />
-        </Tab.Navigator>
-      </NavigationContainer>
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor={getColor('gray-100')}
-      />
+                // You can return any component that you like here!
+                return <FontAwesomeIcon icon={icon} color={color} size={20} />;
+              },
+            })}>
+            <Tab.Screen name="Pronos" component={PronosticScreen} />
+            <Tab.Screen name="Groupes" component={GroupsScreen} />
+            <Tab.Screen name="Résultats" component={ResultsScreen} />
+            <Tab.Screen name="Profil" component={ProfileScreen} />
+          </Tab.Navigator>
+        </NavigationContainer>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor={getColor('gray-100')}
+        />
       </PaperProvider>
     </ApolloProvider>
   );

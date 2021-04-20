@@ -1,6 +1,6 @@
 import tailwind from 'tailwind-rn';
 import {Pressable, Text, View} from 'react-native';
-import { Chip, Colors } from 'react-native-paper'
+import {Chip, Colors} from 'react-native-paper';
 import React, {useEffect, useState} from 'react';
 
 const Tab = ({children, style, onPress, active}) => (
@@ -46,12 +46,22 @@ const GroupNavigation = ({onChange}) => {
   return (
     <View
       style={{
-          display:'flex',
-          margin: 8,
-          flexDirection:"row",
+        display: 'flex',
+        backgroundColor: 'white',
+        padding: 8,
+        flexDirection: 'row',
       }}>
       {tabs.map((tab, i) => (
-        <Chip mode="outlined" icon="" style={{ marginRight: 8, backgroundColor: i === state ? Colors.grey800: Colors.white}} selectedColor={i === state ? Colors.white: Colors.black} onPress={() => handleClick(i)} key={i} >
+        <Chip
+          mode="outlined"
+          icon=""
+          style={{
+            marginRight: 8,
+            backgroundColor: i === state ? Colors.grey800 : Colors.grey100,
+          }}
+          selectedColor={i === state ? Colors.white : Colors.black}
+          onPress={() => handleClick(i)}
+          key={i}>
           {tab}
         </Chip>
       ))}

@@ -22,12 +22,8 @@ const InProgressFixtureView = ({fixture}: InProgressViewProps) => (
     </View>
 
     <View style={tailwind(' border-t-2 border-gray-200 px-4 mb-2')}>
-      {fixture.prediction != null ? (
+      {fixture.prediction != null && (
         <PronosticView prediction={fixture.prediction} />
-      ) : (
-        <View>
-          <Text>test</Text>
-        </View>
       )}
     </View>
   </View>

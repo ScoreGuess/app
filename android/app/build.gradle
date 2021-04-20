@@ -132,8 +132,8 @@ android {
         applicationId "game.scoreguess"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 21
-        versionName "1.14"
+        versionCode 24
+        versionName "1.17"
     }
     splits {
         abi {

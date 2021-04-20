@@ -31,7 +31,6 @@ const FixturesSectionList = () => {
 
   React.useEffect(() => {
     const fixtures = data?.fixtures ?? [];
-    console.log(fixtures.length);
     setState((s) => {
       const newState = [...s, ...fixtures];
       newState.filter((item, index, a) => a.findIndex((b) => b.id === item.id));

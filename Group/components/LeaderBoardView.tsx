@@ -8,11 +8,13 @@ import {computePoints} from '../../Results/utils';
 import {encode as base64Encoded} from 'base-64';
 
 const LeaderBoardView = ({group, onScroll}) => {
-  const participants = group.participants
-    .map((participant) => ({
-      ...participant,
-      points: computePoints(participant, group.createdAt),
-    }))
+  const participants = group.rankings
+    .map(({score, userId}) => {
+      return {
+        ...group.participants.find((p) => p.id === userId),
+        points: score,
+      };
+    })
     .sort((a, b) => b.points - a.points);
   // prevent the app from complaining
   const token = base64Encoded(

@@ -44,6 +44,24 @@ export const SEARCH_FIXTURES = gql`
   }
 `;
 
+export const SEARCH_GROUP_FIXTURE = gql`
+  query getFixturePrediction($groupId: String!, $fixtureId: String!) {
+    fixture(groupId: $groupId, fixtureId: $fixtureId) {
+      predictions {
+        user {
+          id
+          displayName
+        }
+        homeScore
+        awayScore
+        attributes {
+          type
+        }
+      }
+    }
+  }
+`;
+
 export const SEARCH_GROUP_FIXTURES = gql`
   query getAllFixturesPredictions($groupId: String, $offset: Int) {
     fixtures(groupId: $groupId, offset: $offset, status: FINISHED) {
@@ -54,24 +72,6 @@ export const SEARCH_GROUP_FIXTURES = gql`
         name
       }
       matchDay
-      predictions {
-        attributes {
-          type
-        }
-        homeScore
-        awayScore
-        user {
-          id
-          displayName
-        }
-      }
-      prediction {
-        attributes {
-          type
-        }
-        homeScore
-        awayScore
-      }
       homeScore
       awayScore
       awayTeam {

@@ -35,7 +35,12 @@ const stackOptions = {
 const GroupsScreen = ({}) => (
   <Stack.Navigator>
     <Stack.Screen
-      options={{...stackOptions, headerShown: true, headerTitle:"ScoreGuess"}}
+      options={{
+        ...stackOptions,
+        headerShown: true,
+        headerTitle: 'ScoreGuess',
+        headerStyle: {backgroundColor: '#ffffff'},
+      }}
       name={'Home'}
       component={GroupsView}
     />
@@ -49,11 +54,16 @@ const GroupsScreen = ({}) => (
       options={{...stackOptions, headerLeft: HeaderLeft}}
       component={JoinGroupForm}
     />
-    <Stack.Screen name="Group" options={({route})=>{
-        return ({
-            title: route?.params?.group?.name
-        })
-    }} component={GroupView} />
+    <Stack.Screen
+      name="Group"
+      options={({route}) => {
+        return {
+          title: route?.params?.group?.name,
+          headerBackTitle: '',
+        };
+      }}
+      component={GroupView}
+    />
   </Stack.Navigator>
 );
 

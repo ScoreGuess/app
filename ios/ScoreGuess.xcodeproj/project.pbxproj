@@ -713,13 +713,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ScoreGuess/ScoreGuess.entitlements;
-				CURRENT_PROJECT_VERSION = 21;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = 5V83KSKXZN;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ScoreGuess/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.14;
+				MARKETING_VERSION = 1.17;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -740,12 +740,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ScoreGuess/ScoreGuess.entitlements;
-				CURRENT_PROJECT_VERSION = 21;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = 5V83KSKXZN;
 				INFOPLIST_FILE = ScoreGuess/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.14;
+				MARKETING_VERSION = 1.17;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

@@ -1,10 +1,11 @@
-import {View, ActivityIndicator, Animated} from 'react-native';
+import {View, Animated} from 'react-native';
 import tailwind from 'tailwind-rn';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import GroupNavigation, {
   GROUP_NAVIGATION_HEADER_HEIGHT,
 } from './GroupNavigation';
-import {Divider} from "react-native-paper";
+
+import {Divider, ActivityIndicator} from 'react-native-paper';
 import LeaderBoardView from './LeaderBoardView';
 import GroupResultsView from './GroupResultsView';
 import {RouteProp} from '@react-navigation/native';
@@ -23,18 +24,14 @@ const READ_GROUP = gql`
       id
       name
       createdAt
+      rankings {
+        score
+        userId
+      }
       participants {
         id
         email
         displayName
-        predictions {
-          fixture {
-            startDate
-          }
-          attributes {
-            type
-          }
-        }
       }
     }
   }
@@ -59,7 +56,6 @@ const GroupView = ({route}: GroupViewProps) => {
     },
   });
   const [index, setIndex] = useState(0);
-
   const handleChange = (i: number) => {
     setIndex(i);
   };
@@ -67,9 +63,7 @@ const GroupView = ({route}: GroupViewProps) => {
   const handleScroll = (e) => {
     scrollY.setValue(e.nativeEvent.contentOffset.y);
   };
-  if (loading) {
-    return <ActivityIndicator />;
-  }
+
   return (
     <View style={tailwind('bg-gray-100 h-full')}>
       <Animated.View
@@ -87,17 +81,30 @@ const GroupView = ({route}: GroupViewProps) => {
           ],
         }}>
         <GroupNavigation onChange={handleChange} />
-        <Divider/>
+        <Divider />
       </Animated.View>
-      {index === 0 && (
-        <LeaderBoardView group={data.group} onScroll={handleScroll} />
-      )}
-      {index === 1 && (
-        <GroupResultsView
-          group={data.group}
-          onScroll={handleScroll}
-          y={diffClamp}
-        />
+      {loading === true ? (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <ActivityIndicator />
+        </View>
+      ) : (
+        <>
+          {index === 0 && (
+            <LeaderBoardView group={data.group} onScroll={handleScroll} />
+          )}
+          {index === 1 && (
+            <GroupResultsView
+              group={data.group}
+              onScroll={handleScroll}
+              y={diffClamp}
+            />
+          )}
+        </>
       )}
     </View>
   );
