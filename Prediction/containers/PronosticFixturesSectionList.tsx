@@ -1,5 +1,6 @@
 import React, {ReactNode, useCallback, useEffect} from 'react';
-import {ActivityIndicator, AppState, SectionList} from 'react-native';
+import {AppState, SectionList, View} from 'react-native';
+import {ActivityIndicator, Headline, Paragraph} from 'react-native-paper';
 import {useQuery} from '@apollo/client';
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -62,9 +63,38 @@ const PronosticFixturesSectionList = ({
   const entries = groupByMatchDay(fixtures);
 
   const renderItem = ({item}: {item: Fixture}) => children(item);
+  if (loading)
+    return (
+      <View
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flex: 1,
+        }}>
+        <ActivityIndicator />
+        <Paragraph style={{marginTop: 20}}>
+          Chargement des matchs à venir...
+        </Paragraph>
+      </View>
+    );
 
-  return loading ? (
-    <ActivityIndicator />
+  return fixtures.length === 0 ? (
+    <View
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+        padding: 20,
+      }}>
+      <Headline style={{textAlign: 'center'}}>
+        Hum, les prochains matchs ne sont pas encore disponibles...
+      </Headline>
+      <Paragraph style={{marginTop: 20}}>
+        Reviens plus tard pour saisir tes pronos
+      </Paragraph>
+    </View>
   ) : (
     <SectionList
       onRefresh={onRefresh}

@@ -1,8 +1,8 @@
 import {gql} from '@apollo/client';
 
 export const SEARCH_FIXTURES = gql`
-  query getAllFixturesPredictions($offset: Int) {
-    fixtures(offset: $offset) {
+  query getAllFixturesPredictions($after: String) {
+    fixtures(after: $after) {
       startDate
       id
       status
@@ -63,8 +63,8 @@ export const SEARCH_GROUP_FIXTURE = gql`
 `;
 
 export const SEARCH_GROUP_FIXTURES = gql`
-  query getAllFixturesPredictions($groupId: String, $offset: Int) {
-    fixtures(groupId: $groupId, offset: $offset, status: FINISHED) {
+  query getAllFixturesPredictions($groupId: String, $after: String) {
+    fixtures(groupId: $groupId, after: $after, status: FINISHED) {
       startDate
       id
       status

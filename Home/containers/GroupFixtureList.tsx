@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useEffect} from 'react';
 import {ActivityIndicator, Animated, View} from 'react-native';
 import tailwind from 'tailwind-rn';
 import {useLazyQuery} from '@apollo/client';
@@ -19,33 +19,23 @@ type FixtureListProps = {
   groupId: String | null;
 };
 
-const GroupedFixtureList = ({
-  groupId,
-  children,
-  onScroll,
-  y,
-}: FixtureListProps) => {
+const useQueryGroupFixturesOnScroll = (groupId) => {
   const [state, setState] = React.useState([]);
   const [query, {loading, data, called, error}] = useLazyQuery(
     SEARCH_GROUP_FIXTURES,
   );
-  React.useEffect(() => {
+
+  useEffect(() => {
     if (error != null) console.warn(error);
   }, [error]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fixtures = data?.fixtures ?? [];
     setState((s) => {
-      const newState = [...s, ...fixtures];
-      newState.filter((item, index, a) => a.findIndex((b) => b.id === item.id));
-      return newState;
+      return [...s, ...fixtures];
     });
   }, [data]);
-  const translateY = y.interpolate({
-    inputRange: [0, GROUP_NAVIGATION_HEADER_HEIGHT],
-    outputRange: [GROUP_NAVIGATION_HEADER_HEIGHT, 0],
-    extrapolateLeft: 'clamp',
-  });
+
   React.useEffect(() => {
     query({
       variables: {
@@ -53,14 +43,36 @@ const GroupedFixtureList = ({
         offset: 0,
       },
     });
-  }, []);
+  }, [groupId]);
+
+  return {
+    fixtures: state,
+    called,
+    loading,
+    query,
+  };
+};
+const GroupedFixtureList = ({
+  groupId,
+  children,
+  onScroll,
+  y,
+}: FixtureListProps) => {
+  const {fixtures, called, loading, query} = useQueryGroupFixturesOnScroll(
+    groupId,
+  );
+  const translateY = y.interpolate({
+    inputRange: [0, GROUP_NAVIGATION_HEADER_HEIGHT],
+    outputRange: [GROUP_NAVIGATION_HEADER_HEIGHT, 0],
+    extrapolateLeft: 'clamp',
+  });
 
   const handleEndReached = () => {
-    if (loading === false)
+    if (!loading)
       query({
         variables: {
           groupId,
-          offset: state.length,
+          after: fixtures?.[fixtures.length - 1]?.id,
         },
       });
   };
@@ -80,7 +92,7 @@ const GroupedFixtureList = ({
       onScroll={onScroll}
       scrollEventThrottle={16}
       bounces={false}
-      sections={groupByMatchDay(state)}
+      sections={groupByMatchDay(fixtures)}
       renderSectionHeader={FixtureSectionHeader}
       renderItem={({item}) => children(item)}
       keyExtractor={keyExtractor}

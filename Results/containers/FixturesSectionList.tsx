@@ -9,7 +9,7 @@ import 'moment/locale/fr';
 import {groupByMatchDay} from '../../Shared/utils';
 import FixtureSectionHeader from '../../Fixture/components/FixtureSectionHeader';
 import FixtureListFooter from '../../Fixture/components/FixtureListFooter';
-import {SEARCH_GROUP_FIXTURES} from '../../Fixture/utils';
+import {SEARCH_FIXTURES} from '../../Fixture/utils';
 
 moment.locale('fr');
 
@@ -22,9 +22,7 @@ const ResultFixtureView = ({item}) => (
 const Separator = () => <View style={{marginTop: 4}} />;
 const FixturesSectionList = () => {
   const [state, setState] = React.useState([]);
-  const [query, {loading, data, error, called}] = useLazyQuery(
-    SEARCH_GROUP_FIXTURES,
-  );
+  const [query, {loading, data, error, called}] = useLazyQuery(SEARCH_FIXTURES);
   React.useEffect(() => {
     if (error != null) console.warn(error);
   }, [error]);
@@ -44,13 +42,13 @@ const FixturesSectionList = () => {
         offset: 0,
       },
     });
-  }, []);
+  }, [query]);
 
   const handleEndReached = () => {
-    if (loading === false)
+    if (!loading)
       query({
         variables: {
-          offset: state.length,
+          after: state?.[state.length - 1]?.id,
         },
       });
   };
